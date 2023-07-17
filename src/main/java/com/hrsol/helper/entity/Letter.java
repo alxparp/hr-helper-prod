@@ -13,6 +13,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "letter_t")
 public class Letter {
 
     @Id

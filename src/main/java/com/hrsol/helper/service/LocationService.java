@@ -1,6 +1,7 @@
 package com.hrsol.helper.service;
 
 import com.hrsol.helper.converter.LocationConverter;
+import com.hrsol.helper.entity.Location;
 import com.hrsol.helper.model.LocationDTO;
 import com.hrsol.helper.repository.LocationRepository;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,9 @@ public class LocationService {
                 .stream()
                 .map(LocationConverter::locationToLocationDTO)
                 .toList();
+    }
+
+    public Location getLocationByCity(String city) {
+        return locationRepository.findByCity(city);
     }
 }

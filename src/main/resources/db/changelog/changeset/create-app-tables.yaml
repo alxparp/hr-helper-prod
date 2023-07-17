@@ -5,7 +5,7 @@ databaseChangeLog:
       changes:
 
         - createTable:
-            tableName: country
+            tableName: country_t
             columns:
               - column:
                   name: id
@@ -21,7 +21,7 @@ databaseChangeLog:
                     nullable: false
 
         - createTable:
-            tableName: location
+            tableName: location_t
             columns:
               - column:
                   name: id
@@ -58,7 +58,7 @@ databaseChangeLog:
                     nullable: false
 
         - createTable:
-            tableName: user
+            tableName: user_t
             columns:
               - column:
                   name: username
@@ -106,9 +106,19 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
+              - column:
+                  name: locked
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: disabled
+                  type: boolean
+                  constraints:
+                    nullable: false
 
         - createTable:
-            tableName: role
+            tableName: role_t
             columns:
               - column:
                   name: role_id
@@ -140,7 +150,7 @@ databaseChangeLog:
                     nullable: false
 
         - createTable:
-            tableName: permission
+            tableName: permission_t
             columns:
               - column:
                   name: permission_id
@@ -220,7 +230,7 @@ databaseChangeLog:
                     nullable: false
 
         - createTable:
-            tableName: template
+            tableName: template_t
             columns:
               - column:
                   name: id
@@ -256,7 +266,7 @@ databaseChangeLog:
                     nullable: false
 
         - createTable:
-            tableName: letter
+            tableName: letter_t
             columns:
               - column:
                   name: id
@@ -313,7 +323,7 @@ databaseChangeLog:
                     nullable: false
 
         - createTable:
-            tableName: job
+            tableName: job_t
             columns:
               - column:
                   name: id
@@ -340,27 +350,27 @@ databaseChangeLog:
 
         - addForeignKeyConstraint:
             baseColumnNames: country_id
-            baseTableName: location
+            baseTableName: location_t
             constraintName: fk_location_country
             onDelete: CASCADE
             onUpdate: RESTRICT
             referencedColumnNames: id
-            referencedTableName: country
+            referencedTableName: country_t
             validate: true
 
         - addForeignKeyConstraint:
             baseColumnNames: location_id
-            baseTableName: user
+            baseTableName: user_t
             constraintName: fk_user_location
             onDelete: CASCADE
             onUpdate: RESTRICT
             referencedColumnNames: id
-            referencedTableName: location
+            referencedTableName: location_t
             validate: true
 
         - addForeignKeyConstraint:
             baseColumnNames: user_status_id
-            baseTableName: user
+            baseTableName: user_t
             constraintName: fk_user_us
             onDelete: CASCADE
             onUpdate: RESTRICT
@@ -375,7 +385,7 @@ databaseChangeLog:
             onDelete: CASCADE
             onUpdate: RESTRICT
             referencedColumnNames: username
-            referencedTableName: user
+            referencedTableName: user_t
             validate: true
 
         - addForeignKeyConstraint:
@@ -385,7 +395,7 @@ databaseChangeLog:
             onDelete: CASCADE
             onUpdate: RESTRICT
             referencedColumnNames: role_id
-            referencedTableName: role
+            referencedTableName: role_t
             validate: true
 
         - addForeignKeyConstraint:
@@ -395,7 +405,7 @@ databaseChangeLog:
             onDelete: CASCADE
             onUpdate: RESTRICT
             referencedColumnNames: role_id
-            referencedTableName: role
+            referencedTableName: role_t
             validate: true
 
         - addForeignKeyConstraint:
@@ -405,22 +415,22 @@ databaseChangeLog:
             onDelete: CASCADE
             onUpdate: RESTRICT
             referencedColumnNames: permission_id
-            referencedTableName: permission
+            referencedTableName: permission_t
             validate: true
 
         - addForeignKeyConstraint:
             baseColumnNames: username
-            baseTableName: letter
+            baseTableName: letter_t
             constraintName: fk_letter_user
             onDelete: CASCADE
             onUpdate: RESTRICT
             referencedColumnNames: username
-            referencedTableName: user
+            referencedTableName: user_t
             validate: true
 
         - addForeignKeyConstraint:
             baseColumnNames: letter_status_id
-            baseTableName: letter
+            baseTableName: letter_t
             constraintName: fk_letter_ls
             onDelete: CASCADE
             onUpdate: RESTRICT
@@ -430,7 +440,7 @@ databaseChangeLog:
 
         - addForeignKeyConstraint:
             baseColumnNames: letter_type_id
-            baseTableName: letter
+            baseTableName: letter_t
             constraintName: fk_letter_lt
             onDelete: CASCADE
             onUpdate: RESTRICT
@@ -440,7 +450,7 @@ databaseChangeLog:
 
         - addForeignKeyConstraint:
             baseColumnNames: template_type_id
-            baseTableName: letter
+            baseTableName: letter_t
             constraintName: fk_letter_tt
             onDelete: CASCADE
             onUpdate: RESTRICT
@@ -450,7 +460,7 @@ databaseChangeLog:
 
         - addForeignKeyConstraint:
             baseColumnNames: template_type_id
-            baseTableName: template
+            baseTableName: template_t
             constraintName: fk_template_tt
             onDelete: CASCADE
             onUpdate: RESTRICT
@@ -460,7 +470,7 @@ databaseChangeLog:
 
         - addForeignKeyConstraint:
             baseColumnNames: job_status_id
-            baseTableName: job
+            baseTableName: job_t
             constraintName: fk_job_js
             onDelete: CASCADE
             onUpdate: RESTRICT
