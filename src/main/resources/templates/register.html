@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<p>Registration</p>
+
+<form
+        th:action="@{/register/save}"
+        th:object="${user}"
+        method="post"
+        role="form"
+>
+  <label for="username">Username: </label>
+  <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Enter username"
+          th:field="*{username}"
+  />
+  <p th:errors = "*{username}" class="text-danger"
+     th:if="${#fields.hasErrors('username')}"></p>
+  <br />
+
+  <label for="password">Password: </label>
+  <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter password"
+          th:field="*{password}"
+  >
+  <p th:errors = "*{password}" class="text-danger"
+     th:if="${#fields.hasErrors('password')}"></p>
+  <br />
+
+  <label for="firstName">First name: </label>
+  <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          placeholder="Enter first name"
+          th:field="*{firstName}"
+  />
+  <p th:errors = "*{firstName}" class="text-danger"
+     th:if="${#fields.hasErrors('firstName')}"></p>
+  <br />
+
+  <label for="lastName">Last name: </label>
+  <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          placeholder="Enter last name"
+          th:field="*{lastName}"
+  />
+  <p th:errors = "*{lastName}" class="text-danger"
+     th:if="${#fields.hasErrors('lastName')}"></p>
+  <br />
+
+  <label for="birthDate">Birthday: </label>
+  <input
+          type="date"
+          id="birthDate"
+          name="birthDate"
+          th:field="*{birthDate}"
+  />
+  <p th:errors = "*{birthDate}" class="text-danger"
+     th:if="${#fields.hasErrors('birthDate')}"></p>
+  <br />
+
+  <label for="email">Email: </label>
+  <input
+          type="text"
+          id="email"
+          name="email"
+          th:field="*{email}"
+  />
+  <p th:errors = "*{email}" class="text-danger"
+     th:if="${#fields.hasErrors('email')}"></p>
+  <br />
+
+  <label for="location">Location: </label>
+  <input
+          type="text"
+          id="location"
+          name="location"
+          th:field="*{location}"
+  />
+  <p th:errors = "*{location}" class="text-danger"
+     th:if="${#fields.hasErrors('location')}"></p>
+  <br />
+
+  <input
+          type="submit"
+          value="Register"
+  >
+
+</form>
+</body>
+</html>

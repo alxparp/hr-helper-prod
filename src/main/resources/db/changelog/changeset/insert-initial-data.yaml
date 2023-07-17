@@ -1,0 +1,201 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-initial-queries
+      author: Alex
+      changes:
+        - insert:
+            tableName: permission_t
+            columns:
+              - column:
+                  name: permission_id
+                  value: 1
+              - column:
+                  name: name
+                  value: read
+
+        - insert:
+            tableName: permission_t
+            columns:
+              - column:
+                  name: permission_id
+                  value: 2
+              - column:
+                  name: name
+                  value: write
+
+        - insert:
+            tableName: role_t
+            columns:
+              - column:
+                  name: role_id
+                  value: 1
+              - column:
+                  name: name
+                  value: ADMIN
+
+        - insert:
+            tableName: role_t
+            columns:
+              - column:
+                  name: role_id
+                  value: 2
+              - column:
+                  name: name
+                  value: ADMINTRAINEE
+
+        - insert:
+            tableName: role_permission
+            columns:
+              - column:
+                  name: role_id
+                  value: 1
+              - column:
+                  name: permission_id
+                  value: 1
+
+        - insert:
+            tableName: role_permission
+            columns:
+              - column:
+                  name: role_id
+                  value: 1
+              - column:
+                  name: permission_id
+                  value: 2
+
+        - insert:
+            tableName: role_permission
+            columns:
+              - column:
+                  name: role_id
+                  value: 2
+              - column:
+                  name: permission_id
+                  value: 1
+
+        - insert:
+            tableName: user_status
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: type
+                  value: AVAILABLE
+
+        - insert:
+            tableName: country_t
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: country
+                  value: Ukraine
+
+        - insert:
+            tableName: location_t
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: city
+                  value: Odesa
+              - column:
+                  name: country_id
+                  value: 1
+
+        - insert:
+            tableName: user_t
+            columns:
+              - column:
+                  name: username
+                  value: linda
+              - column:
+                  name: password
+                  value: $2a$10$eRfSRbe1iHM37FX93nr9z.hLJ.R6LkZGGcoTCoq11zZiRHKymd3K2
+              - column:
+                  name: first_name
+                  value: Linda
+              - column:
+                  name: last_name
+                  value: Jones
+              - column:
+                  name: hire_date
+                  value: now()
+              - column:
+                  name: birth_date
+                  value: now()
+              - column:
+                  name: email
+                  value: linda@gmail.com
+              - column:
+                  name: locked
+                  value: false
+              - column:
+                  name: disabled
+                  value: false
+              - column:
+                  name: user_status_id
+                  value: 1
+              - column:
+                  name: location_id
+                  value: 1
+
+        - insert:
+            tableName: user_t
+            columns:
+              - column:
+                  name: username
+                  value: tom
+              - column:
+                  name: password
+                  value: $$2a$10$eRfSRbe1iHM37FX93nr9z.hLJ.R6LkZGGcoTCoq11zZiRHKymd3K2
+              - column:
+                  name: first_name
+                  value: Tom
+              - column:
+                  name: last_name
+                  value: Banderas
+              - column:
+                  name: hire_date
+                  value: now()
+              - column:
+                  name: birth_date
+                  value: now()
+              - column:
+                  name: email
+                  value: tom@gmail.com
+              - column:
+                  name: locked
+                  value: false
+              - column:
+                  name: disabled
+                  value: false
+              - column:
+                  name: user_status_id
+                  value: 1
+              - column:
+                  name: location_id
+                  value: 1
+
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: username
+                  value: linda
+              - column:
+                  name: role_id
+                  value: 1
+
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: username
+                  value: tom
+              - column:
+                  name: role_id
+                  value: 2
