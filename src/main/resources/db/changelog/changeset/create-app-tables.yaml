@@ -15,7 +15,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
+                  name: country
                   type: varchar(64)
                   constraints:
                     nullable: false
@@ -31,7 +31,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
+                  name: city
                   type: varchar(64)
                   constraints:
                     nullable: false
@@ -111,7 +111,7 @@ databaseChangeLog:
             tableName: role
             columns:
               - column:
-                  name: id
+                  name: role_id
                   type: bigint
                   autoIncrement: true
                   constraints:
@@ -143,7 +143,7 @@ databaseChangeLog:
             tableName: permission
             columns:
               - column:
-                  name: id
+                  name: permission_id
                   type: bigint
                   autoIncrement: true
                   constraints:
@@ -384,7 +384,7 @@ databaseChangeLog:
             constraintName: fk_ur_role
             onDelete: CASCADE
             onUpdate: RESTRICT
-            referencedColumnNames: id
+            referencedColumnNames: role_id
             referencedTableName: role
             validate: true
 
@@ -394,7 +394,7 @@ databaseChangeLog:
             constraintName: fk_rp_role
             onDelete: CASCADE
             onUpdate: RESTRICT
-            referencedColumnNames: id
+            referencedColumnNames: role_id
             referencedTableName: role
             validate: true
 
@@ -404,7 +404,7 @@ databaseChangeLog:
             constraintName: fk_rp_permission
             onDelete: CASCADE
             onUpdate: RESTRICT
-            referencedColumnNames: id
+            referencedColumnNames: permission_id
             referencedTableName: permission
             validate: true
 
