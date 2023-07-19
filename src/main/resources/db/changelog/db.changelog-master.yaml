@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/changeset/create-app-tables.yaml
   - include:
       file: db/changelog/changeset/insert-initial-data.yaml
+  - include:
+      file: db/changelog/changeset/confirmation-token.yaml

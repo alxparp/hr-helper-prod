@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: confirmation-token
+      author: Alex
+      changes:
+
+        - createTable:
+            tableName: confirmation_token
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: token
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: expires_at
+                  type: datetime
+              - column:
+                  name: confirmed_at
+                  type: datetime
+              - column:
+                  name: username
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: username
+            baseTableName: confirmation_token
+            constraintName: fk_ct_user
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: username
+            referencedTableName: user_t
+            validate: true

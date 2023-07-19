@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
 <body>
 
-<p>Registration</p>
+<h1>Registration</h1>
 
 <form
         th:action="@{/register/save}"
@@ -85,15 +86,21 @@
   <br />
 
   <label for="location">Location: </label>
-  <input
-          type="text"
-          id="location"
-          name="location"
-          th:field="*{location}"
-  />
-  <p th:errors = "*{location}" class="text-danger"
-     th:if="${#fields.hasErrors('location')}"></p>
+  <select name="location" id="location" th:each="location: ${locations}">
+    <option th:text="${location.getCity()}"></option>
+  </select>
   <br />
+
+<!--  <label for="location">Location: </label>-->
+<!--  <input-->
+<!--          type="text"-->
+<!--          id="location"-->
+<!--          name="location"-->
+<!--          th:field="*{location}"-->
+<!--  />-->
+<!--  <p th:errors = "*{location}" class="text-danger"-->
+<!--     th:if="${#fields.hasErrors('location')}"></p>-->
+<!--  <br />-->
 
   <input
           type="submit"
@@ -101,5 +108,9 @@
   >
 
 </form>
+
+<br />
+
+<a th:href="@{/login}">Sign in</a>
 </body>
 </html>

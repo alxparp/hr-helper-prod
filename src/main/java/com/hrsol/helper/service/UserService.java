@@ -62,4 +62,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public void enableUser(String username) {
+        userRepository.enableUser(username);
+    }
+
 }

@@ -19,7 +19,6 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
     private String username;
 
     private String password;

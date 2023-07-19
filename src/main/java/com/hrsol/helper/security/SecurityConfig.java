@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -29,7 +30,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                                .requestMatchers("/api/v1/locations", "/register/**").permitAll()
+                                .requestMatchers("/api/v1/locations", "/register/**", "/css/**", "/js/**").permitAll()
+                                .requestMatchers("/confirm").permitAll()
                                 .requestMatchers("/main").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
@@ -41,7 +43,9 @@ public class SecurityConfig {
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
-                );
+                )
+                .csrf().disable()
+                .headers().frameOptions().disable();
         return http.build();
     }
 

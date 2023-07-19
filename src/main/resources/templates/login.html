@@ -3,8 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
 <body>
+
+    <h1>Login form</h1>
+
+    <div th:if="${param.error}">
+        <div class="alert alert-danger">Invalid Login or Password</div>
+    </div>
+    <div th:if="${param.logout}">
+        <div class="alert alert-success"> You have been logged out.</div>
+    </div>
+
+    <br />
+
     <form
             th:action="@{/login}"
             method="post"
@@ -33,5 +46,9 @@
         >
 
     </form>
+
+    <br />
+
+    <a th:href="@{/register}">Register/Signup here</a>
 </body>
 </html>
