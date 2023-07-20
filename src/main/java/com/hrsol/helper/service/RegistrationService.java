@@ -2,7 +2,9 @@ package com.hrsol.helper.service;
 
 import com.hrsol.helper.entity.ConfirmationToken;
 import com.hrsol.helper.entity.User;
+import com.hrsol.helper.model.NotificationRequest;
 import com.hrsol.helper.model.UserDTO;
+import com.hrsol.helper.util.Util;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,9 +34,13 @@ public class RegistrationService {
                 confirmationTokenService.saveConfirmationToken(createToken(userDTO.getUsername()));
 
         String link = "http://localhost:8080/confirm?token=" + token.getToken();
-        emailService.send(
+        NotificationRequest notification = new NotificationRequest(
+                Util.FROM,
                 user.getEmail(),
-                buildEmail(user.getFirstName(), link));
+                Util.CONFIRMATION,
+                buildEmail(user.getFirstName(), link)
+        );
+        emailService.send(notification);
         LOGGER.info(String.format("User %s has registered", user.getUsername()));
     }
 
