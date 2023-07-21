@@ -101,4 +101,13 @@ public class DummyObjects {
                 .build();
     }
 
+    public static NotificationRequest getNotification() {
+        return new NotificationRequest(
+                Util.FROM,
+                getUser().getEmail(),
+                Util.CONFIRMATION,
+                "Hello world!!!"
+        );
+    }
+
 }
