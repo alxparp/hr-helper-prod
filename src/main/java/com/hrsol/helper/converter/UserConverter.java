@@ -5,6 +5,8 @@ import com.hrsol.helper.entity.User;
 import com.hrsol.helper.entity.UserStatus;
 import com.hrsol.helper.model.UserDTO;
 
+import java.sql.Date;
+
 public class UserConverter {
 
     public static UserDTO userToUserDTO(User user) {
@@ -27,8 +29,10 @@ public class UserConverter {
         user.setPassword(userDTO.getPassword());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
-        user.setHireDate(userDTO.getHireDate());
-        user.setBirthDate(userDTO.getBirthDate());
+        if (userDTO.getHireDate() != null)
+            user.setHireDate(new Date(userDTO.getHireDate().getTime()));
+        if (userDTO.getBirthDate() != null)
+            user.setBirthDate(new Date(userDTO.getBirthDate().getTime()));
         user.setEmail(userDTO.getEmail());
         user.setUserStatus(new UserStatus());
         user.setLocation(new Location());

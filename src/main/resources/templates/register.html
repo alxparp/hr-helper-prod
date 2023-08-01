@@ -9,6 +9,13 @@
 
 <h1>Registration</h1>
 
+<div th:if="${param.success}">
+  <div class="alert alert-success">
+    You have successfully registered our app! <br />
+    Go to your post and confirm your email
+  </div>
+</div>
+
 <form
         th:action="@{/register/save}"
         th:object="${user}"
@@ -90,17 +97,6 @@
     <option th:text="${location.getCity()}"></option>
   </select>
   <br />
-
-<!--  <label for="location">Location: </label>-->
-<!--  <input-->
-<!--          type="text"-->
-<!--          id="location"-->
-<!--          name="location"-->
-<!--          th:field="*{location}"-->
-<!--  />-->
-<!--  <p th:errors = "*{location}" class="text-danger"-->
-<!--     th:if="${#fields.hasErrors('location')}"></p>-->
-<!--  <br />-->
 
   <input
           type="submit"
