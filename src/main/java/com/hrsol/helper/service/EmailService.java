@@ -1,5 +1,6 @@
 package com.hrsol.helper.service;
 
+import com.hrsol.helper.model.NotificationRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import org.apache.log4j.Logger;
 
+import java.nio.charset.StandardCharsets;
+
 @Service
 @AllArgsConstructor
 public class EmailService {
@@ -19,16 +22,16 @@ public class EmailService {
     private final JavaMailSender mailSender;
 
     @Async
-    public void send(String to, String email) {
+    public void send(NotificationRequest notification) {
         try {
             LOGGER.info("Sending email...");
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper =
-                    new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(email, true);
-            helper.setTo(to);
-            helper.setSubject("Confirm your email");
-            helper.setFrom("alex@hrsol.com");
+                    new MimeMessageHelper(mimeMessage, StandardCharsets.UTF_8.name());
+            helper.setText(notification.getText(), true);
+            helper.setTo(notification.getTo());
+            helper.setSubject(notification.getSubject());
+            helper.setFrom(notification.getFrom());
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);
