@@ -26,6 +26,7 @@ public class UserDTO {
     private String firstName;
     @NotEmpty(message = "Last name should not be empty")
     private String lastName;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date hireDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message = "Date must be in the past")

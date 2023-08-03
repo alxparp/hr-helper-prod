@@ -1,5 +1,6 @@
 package com.hrsol.helper.service;
 
+import com.hrsol.helper.model.CustomUserDetails;
 import com.hrsol.helper.entity.Role;
 import com.hrsol.helper.entity.User;
 import com.hrsol.helper.repository.UserRepository;
@@ -25,12 +26,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findById(username).orElseThrow();
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .accountLocked(user.isLocked())
-                .disabled(user.isDisabled())
-                .authorities(getGrantedAuthorities(user.getRoles()))
+        return new CustomUserDetails.Builder()
+                .withFirstName(user.getFirstName())
+                .withLastName(user.getLastName())
+                .withEmail(user.getEmail())
+                .withUsername(user.getUsername())
+                .withPassword(user.getPassword())
+                .isDisabled(user.isDisabled())
+                .isLocked(user.isLocked())
+                .withAuthorities(getGrantedAuthorities(user.getRoles()))
                 .build();
     }
 

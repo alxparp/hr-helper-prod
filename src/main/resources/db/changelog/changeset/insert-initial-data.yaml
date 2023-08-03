@@ -151,7 +151,7 @@ databaseChangeLog:
                   value: tom
               - column:
                   name: password
-                  value: $$2a$10$eRfSRbe1iHM37FX93nr9z.hLJ.R6LkZGGcoTCoq11zZiRHKymd3K2
+                  value: $2a$10$eRfSRbe1iHM37FX93nr9z.hLJ.R6LkZGGcoTCoq11zZiRHKymd3K2
               - column:
                   name: first_name
                   value: Tom

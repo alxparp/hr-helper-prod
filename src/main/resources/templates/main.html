@@ -1,10 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Document</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
 </head>
 <body>
-  <p>Main page</p>
+
+<div id="wrapper">
+    <div id="gen_nav">
+        <div id="templ_nav">
+            <a href="">New Letter</a>
+            <a href="">New Reminder</a>
+            <a href="">Templates</a>
+        </div>
+        <div id="nav">
+            <ul>
+                <li><span sec:authentication="principal.firstName">not found</span>
+                    <span sec:authentication="principal.lastName">not found</span> &nbsp;&nbsp;|</li>
+                <li><a th:href="@{/logout}">Log Out</a> &nbsp;&nbsp;|</li>
+                <li><a id="myBtn">Location</a> &nbsp;&nbsp;|</li>
+                <li><a th:href="@{/admin}">admin</a></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="content">
+        <!-- Tab links -->
+        <div class="tab">
+            <button class="tablinks" onclick="openCity(event, 'generated')" id="defaultOpen">Generated Drafts</button>
+            <button class="tablinks" onclick="openCity(event, 'approved')">Approved Letters and Reminders</button>
+            <button class="tablinks" onclick="openCity(event, 'send')">Send Letters and Reminders</button>
+            <button class="tablinks" onclick="openCity(event, 'delayed')">Delayed Drafts</button>
+            <button class="tablinks" onclick="openCity(event, 'cancelled')">Cancelled Drafts</button>
+        </div>
+
+        <!-- Tab content -->
+        <div id="generated" class="tabcontent">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td>Birthday John Block</td>
+                    <td>07/09/18</td>
+                    <td>Draft</td>
+                    <td>MNSK</td>
+                    <td><a href="">Edit</a> | <a href="">Approve</a></td>
+                </tr>
+                <tr>
+                    <td>Anniversary Tom Ford</td>
+                    <td>07/09/18</td>
+                    <td>Draft</td>
+                    <td>ODS</td>
+                    <td><a href="">Edit</a> | <a href="">Approve</a></td>
+                </tr>
+                <tr>
+                    <td>Newcomer Kate Cortes</td>
+                    <td>07/09/18</td>
+                    <td>Draft</td>
+                    <td>ODS</td>
+                    <td><a href="">Edit</a> | <a href="">Approve</a></td>
+                </tr>
+                <tr>
+                    <td>Promotion David Costle</td>
+                    <td>07/09/18</td>
+                    <td>Draft</td>
+                    <td>MNSK</td>
+                    <td><a href="">Edit</a> | <a href="">Approve</a></td>
+                </tr>
+                <tr>
+                    <td>Vacation Caren Lorens</td>
+                    <td>07/09/18</td>
+                    <td>Draft</td>
+                    <td>ODS</td>
+                    <td><a href="">Edit</a> | <a href="">Approve</a></td>
+                </tr>
+                <tr>
+                    <td>Invoice Linda Mortel</td>
+                    <td>07/09/18</td>
+                    <td>Draft</td>
+                    <td>ODS</td>
+                    <td><a href="">Edit</a> | <a href="">Approve</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="approved" class="tabcontent">
+            <h3>Approved</h3>
+            <p>Paris is the capital of France.</p>
+        </div>
+
+        <div id="send" class="tabcontent">
+            <h3>Send</h3>
+            <p>Tokyo is the capital of Japan.</p>
+        </div>
+        <div id="delayed" class="tabcontent">
+            <h3>Delayed</h3>
+            <p>Tokyo is the capital of Japan.</p>
+        </div>
+        <div id="cancelled" class="tabcontent">
+            <h3>Cancelled</h3>
+            <p>Tokyo is the capital of Japan.</p>
+        </div>
+    </div>
+
+    <div id="paginator">
+        <a href="">&lt;&lt;</a>
+        <a href="">1</a>
+        <a href="">2</a>
+        <a href="">3</a>
+        <a href="">4</a>
+        <a href="">5</a>
+        <a href="">&gt;&gt;</a>
+    </div>
+
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Some text in the Modal..</p>
+    </div>
+
+</div>
+<script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
