@@ -32,7 +32,7 @@ public class Letter {
     @JoinColumn(name = "username")
     private User username;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "letter_type_id")
     private LetterType letterType;
 

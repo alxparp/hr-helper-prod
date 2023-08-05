@@ -10,7 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.hrsol.helper.entity.UserStatusType.AVAILABLE;
+import static com.hrsol.helper.entity.enums.UserStatusType.AVAILABLE;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

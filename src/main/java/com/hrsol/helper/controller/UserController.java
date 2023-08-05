@@ -13,11 +13,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/main")
-    public String main(){
-        return "main";
-    }
-
     @GetMapping("/login")
     public String login() {
         return "login";

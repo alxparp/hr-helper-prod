@@ -3,6 +3,7 @@ package com.hrsol.helper.service;
 import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.converter.UserConverter;
 import com.hrsol.helper.entity.*;
+import com.hrsol.helper.entity.enums.UserStatusType;
 import com.hrsol.helper.model.UserDTO;
 import com.hrsol.helper.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;

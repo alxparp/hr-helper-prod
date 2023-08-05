@@ -199,3 +199,258 @@ databaseChangeLog:
               - column:
                   name: role_id
                   value: 2
+
+        - insert:
+            tableName: letter_type
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: type
+                  value: Generated Drafts
+
+        - insert:
+            tableName: letter_type
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: type
+                  value: Approved Letters and Reminders
+
+        - insert:
+            tableName: letter_type
+            columns:
+              - column:
+                  name: id
+                  value: 3
+              - column:
+                  name: type
+                  value: Send Letters and Reminders
+
+        - insert:
+            tableName: letter_type
+            columns:
+              - column:
+                  name: id
+                  value: 4
+              - column:
+                  name: type
+                  value: Delayed Drafts
+
+        - insert:
+            tableName: letter_type
+            columns:
+              - column:
+                  name: id
+                  value: 5
+              - column:
+                  name: type
+                  value: Cancelled Drafts
+
+        - insert:
+            tableName: template_type
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: type
+                  value: Birthday
+
+        - insert:
+            tableName: template_type
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: type
+                  value: Anniversary
+
+        - insert:
+            tableName: template_type
+            columns:
+              - column:
+                  name: id
+                  value: 3
+              - column:
+                  name: type
+                  value: Newcomer
+
+        - insert:
+            tableName: template_type
+            columns:
+              - column:
+                  name: id
+                  value: 4
+              - column:
+                  name: type
+                  value: Promotion
+
+        - insert:
+            tableName: template_type
+            columns:
+              - column:
+                  name: id
+                  value: 5
+              - column:
+                  name: type
+                  value: Vacation
+
+        - insert:
+            tableName: template_type
+            columns:
+              - column:
+                  name: id
+                  value: 6
+              - column:
+                  name: type
+                  value: Invoice
+
+        - insert:
+            tableName: letter_status
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: type
+                  value: Draft
+
+        - insert:
+            tableName: letter_status
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: type
+                  value: Actual
+
+        - insert:
+            tableName: letter_t
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name
+                  value: Birthday John Block
+              - column:
+                  name: due_date
+                  value: now()
+              - column:
+                  name: letter_status_id
+                  value: 1
+              - column:
+                  name: username
+                  value: linda
+              - column:
+                  name: letter_type_id
+                  value: 1
+              - column:
+                  name: template_type_id
+                  value: 1
+
+        - insert:
+            tableName: letter_t
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: name
+                  value: Anniversary Tom Ford
+              - column:
+                  name: due_date
+                  value: now()
+              - column:
+                  name: letter_status_id
+                  value: 1
+              - column:
+                  name: username
+                  value: linda
+              - column:
+                  name: letter_type_id
+                  value: 1
+              - column:
+                  name: template_type_id
+                  value: 2
+
+        - insert:
+            tableName: letter_t
+            columns:
+              - column:
+                  name: id
+                  value: 3
+              - column:
+                  name: name
+                  value: Anniversary Tom Ford
+              - column:
+                  name: due_date
+                  value: now()
+              - column:
+                  name: letter_status_id
+                  value: 1
+              - column:
+                  name: username
+                  value: linda
+              - column:
+                  name: letter_type_id
+                  value: 1
+              - column:
+                  name: template_type_id
+                  value: 3
+
+        - insert:
+            tableName: letter_t
+            columns:
+              - column:
+                  name: id
+                  value: 4
+              - column:
+                  name: name
+                  value: Anniversary Tom Ford
+              - column:
+                  name: due_date
+                  value: now()
+              - column:
+                  name: letter_status_id
+                  value: 1
+              - column:
+                  name: username
+                  value: linda
+              - column:
+                  name: letter_type_id
+                  value: 1
+              - column:
+                  name: template_type_id
+                  value: 4
+
+        - insert:
+            tableName: letter_t
+            columns:
+              - column:
+                  name: id
+                  value: 5
+              - column:
+                  name: name
+                  value: Vacation Tom Ford
+              - column:
+                  name: due_date
+                  value: now()
+              - column:
+                  name: letter_status_id
+                  value: 1
+              - column:
+                  name: username
+                  value: linda
+              - column:
+                  name: letter_type_id
+                  value: 1
+              - column:
+                  name: template_type_id
+                  value: 5

@@ -93,6 +93,20 @@
     text-align: center;
 }
 
+#paginator a {
+    cursor: pointer;
+    margin-right: 5px;
+    text-decoration: underline;
+    color: blue;
+    pointer-events: auto;
+}
+
+#paginator a.active {
+    text-decoration: none;
+    color: black;
+    pointer-events: none;
+}
+
 .clear {
     clear: both;
 }

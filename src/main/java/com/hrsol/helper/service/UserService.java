@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 
-import static com.hrsol.helper.entity.UserStatusType.AVAILABLE;
-import static com.hrsol.helper.security.UserRole.ADMIN;
+import static com.hrsol.helper.entity.enums.UserStatusType.AVAILABLE;
+import static com.hrsol.helper.entity.enums.UserRole.ADMIN;
 
 @Service
 public class UserService {

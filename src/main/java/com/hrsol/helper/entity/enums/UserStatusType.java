@@ -1,4 +1,4 @@
-package com.hrsol.helper.entity;
+package com.hrsol.helper.entity.enums;
 
 public enum UserStatusType {
 
