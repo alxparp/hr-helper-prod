@@ -2,14 +2,14 @@
 
 document.getElementById("defaultOpen").click();
 
-var cit;
+var letterTypeIdGlobal;
 
-function openCity(evt, cityName) {
+function showLetters(evt, letterTypeId) {
     // Declare all variables
     var i, tabcontent, tablinks;
-    cit = cityName;
+    letterTypeIdGlobal = letterTypeId;
 
-    fire_ajax_submit(cityName, null, null);
+    fire_ajax_submit(letterTypeId, null, null);
 
     // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -24,7 +24,7 @@ function openCity(evt, cityName) {
     }
 
     // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(cityName).style.display = "block";
+    document.getElementById(letterTypeId).style.display = "block";
     evt.currentTarget.className += " active";
 }
 
@@ -64,10 +64,10 @@ window.onclick = function(event) {
 
 // Ajax
 function fire_ajax_submit(letterTypeId, size, pageNumber) {
-   var typeId = {}
-   typeId["id"] = letterTypeId;
-   typeId["size"] = size;
-   typeId["page"] = pageNumber;
+   var criteria = {}
+   criteria["id"] = letterTypeId;
+   criteria["size"] = size;
+   criteria["page"] = pageNumber;
 
     var tabcontent = document.getElementById(letterTypeId);
     var table = tabcontent.getElementsByTagName("table").item(0);
@@ -76,47 +76,13 @@ function fire_ajax_submit(letterTypeId, size, pageNumber) {
         type: "POST",
         contentType: "application/json",
         url: "/main/letterType",
-        data: JSON.stringify(typeId),
+        data: JSON.stringify(criteria),
         dataType: 'json',
         cache: false,
         timeout: 600000,
         success: function (data) {
-            table.innerHTML = "";
-
-            var result = "<tr>\n" +
-                            "<th>Name</th>\n" +
-                            "<th>Due Date</th>\n" +
-                            "<th>Status</th>\n" +
-                            "<th>Location</th>\n" +
-                            "<th>Action</th>\n" +
-                         "</tr>";
-
-            $.each(data.result.content, function(index,value){
-                result += "<tr><td>" + value.name + "</td>" +
-                    "<td>" + value.dueDate + "</td>" +
-                    "<td>" + value.letterStatus + "</td>" +
-                    "<td>" + value.city + "</td>" +
-                    "<td><a href=\"\">Edit</a> | <a href=\"\">Approve</a></td></tr>";
-            });
-
-            if (data.result.length === 0) result = data.msg;
-            table.innerHTML = result;
-
-            var letterPage = data.result;
-            var paginator = document.getElementById("paginator");
-            paginator.innerHTML = "";
-            if (letterPage.totalPages > 0) {
-                $.each(data.pageNumbers, function(index,value){
-                    var className = "";
-                    if (value === letterPage.number + 1) {
-                        className = "class='active'";
-                    }
-                    paginator.innerHTML +=
-                        "<a onclick=\"clickPagination(event," + letterPage.size + "," + value + ");\" " + className + ">"
-                        + value + "</a>";
-                });
-            }
-
+            displayLetters(table, data);
+            displayPaginator(data);
             console.log("SUCCESS : ", data);
         },
         error: function (e) {
@@ -126,7 +92,46 @@ function fire_ajax_submit(letterTypeId, size, pageNumber) {
     });
 }
 
+function displayLetters(table, data) {
+    table.innerHTML = "";
+
+    var result = "<tr>\n" +
+        "<th>Name</th>\n" +
+        "<th>Due Date</th>\n" +
+        "<th>Status</th>\n" +
+        "<th>Location</th>\n" +
+        "<th>Action</th>\n" +
+        "</tr>";
+
+    $.each(data.result.content, function(index,value){
+        result += "<tr><td>" + value.name + "</td>" +
+            "<td>" + value.dueDate + "</td>" +
+            "<td>" + value.letterStatus + "</td>" +
+            "<td>" + value.city + "</td>" +
+            "<td><a href=\"\">Edit</a> | <a href=\"\">Approve</a></td></tr>";
+    });
+
+    if (data.result.length === 0) result = data.msg;
+    table.innerHTML = result;
+}
+
+function displayPaginator(data) {
+    var letterPage = data.result;
+    var paginator = document.getElementById("paginator");
+    paginator.innerHTML = "";
+    if (letterPage.totalPages > 0) {
+        $.each(data.pageNumbers, function(index,value){
+            var className = "";
+            if (value === letterPage.number + 1) {
+                className = "class='active'";
+            }
+            paginator.innerHTML +=
+                "<a onclick=\"clickPagination(event," + letterPage.size + "," + value + ");\" " + className + ">"
+                + value + "</a>";
+        });
+    }
+}
+
 function clickPagination(event, size, pageNumber) {
-    console.log('hello pagination');
-    fire_ajax_submit(cit, size, pageNumber);
+    fire_ajax_submit(letterTypeIdGlobal, size, pageNumber);
 }

@@ -4,12 +4,11 @@ import com.hrsol.helper.model.AjaxResponseBody;
 import com.hrsol.helper.model.ClickCriteria;
 import com.hrsol.helper.model.LetterDTO;
 import com.hrsol.helper.model.LetterTypeDTO;
-import com.hrsol.helper.service.LetterService;
 import com.hrsol.helper.service.LetterTypeService;
+import com.hrsol.helper.service.PaginatorService;
 import jakarta.validation.Valid;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,19 +18,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/main")
 public class LetterController {
 
     private final LetterTypeService letterTypeService;
-    private final LetterService letterService;
+    private final PaginatorService paginatorService;
 
     public LetterController(LetterTypeService letterTypeService,
-                            LetterService letterService) {
+                            PaginatorService paginatorService) {
         this.letterTypeService = letterTypeService;
-        this.letterService = letterService;
+        this.paginatorService = paginatorService;
     }
 
     @GetMapping
@@ -56,20 +54,20 @@ public class LetterController {
             return ResponseEntity.badRequest().body(result);
         }
 
-        int currentPage = clickCriteria.getPage().orElse(1);
-        int pageSize = clickCriteria.getSize().orElse(2);
-
-        Page<LetterDTO> letterPage = letterService.findPaginated(
-                PageRequest.of(currentPage - 1, pageSize),
-                letterTypeService.findById(clickCriteria.getId()));
-
-        int totalPages = letterPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            result.setPageNumbers(pageNumbers);
+        if (!letterTypeService.containsId(clickCriteria.getId())) {
+            result.setMsg("Such letter type doesn't exist");
+            return ResponseEntity.badRequest().body(result);
         }
+
+        formPageResult(clickCriteria, result);
+
+        return ResponseEntity.ok(result);
+    }
+
+    private void formPageResult(ClickCriteria clickCriteria, AjaxResponseBody result) {
+        Page<LetterDTO> letterPage = paginatorService.configurePaginator(clickCriteria);
+        int totalPages = letterPage.getTotalPages();
+        if (totalPages > 0) result.setPageNumbers(paginatorService.generatePageNumbers(totalPages));
 
         if (letterPage.getContent().isEmpty()) {
             result.setMsg("No letter found!");
@@ -77,31 +75,8 @@ public class LetterController {
             result.setMsg("Success");
         }
         result.setResult(letterPage);
-
-        return ResponseEntity.ok(result);
     }
 
-//    @GetMapping("/listLetters")
-//    public String listLetters(
-//            Model model,
-//            @RequestParam("page") Optional<Integer> page,
-//            @RequestParam("size") Optional<Integer> size) {
-//        int currentPage = page.orElse(1);
-//        int pageSize = size.orElse(5);
-//
-//        Page<LetterDTO> letterPage = letterService.findPaginated(
-//                PageRequest.of(currentPage - 1, pageSize));
-//
-//        model.addAttribute("letterPage", letterPage);
-//
-//        int totalPages = letterPage.getTotalPages();
-//        if (totalPages > 0) {
-//            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-//                    .boxed()
-//                    .collect(Collectors.toList());
-//            model.addAttribute("pageNumbers", pageNumbers);
-//        }
-//        return "main";
-//    }
+
 
 }

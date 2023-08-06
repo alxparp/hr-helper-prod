@@ -1,6 +1,5 @@
 #wrapper {
     width: 900px;
-    /*    outline: 1px solid red;*/
 }
 
 #gen_nav {
@@ -61,6 +60,7 @@
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
+    pointer-events: auto;
 }
 
 /* Change background color of buttons on hover */
@@ -71,6 +71,7 @@
 /* Create an active/current tablink class */
 .tab button.active {
     background-color: #ccc;
+    pointer-events: none;
 }
 
 /* Style the tab content */

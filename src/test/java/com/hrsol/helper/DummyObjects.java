@@ -1,6 +1,7 @@
 package com.hrsol.helper;
 
 import com.hrsol.helper.entity.*;
+import com.hrsol.helper.model.ClickCriteria;
 import com.hrsol.helper.model.NotificationRequest;
 import com.hrsol.helper.util.Util;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -104,6 +106,34 @@ public class DummyObjects {
                 Util.CONFIRMATION,
                 "Hello world!!!"
         );
+    }
+
+    public static LetterType getLetterType() {
+        return new LetterType(1L, "Generated Drafts");
+    }
+
+    public static LetterStatus getLetterStatus() {
+        return new LetterStatus(1L, "Draft");
+    }
+
+    public static TemplateType getTemplateType() {
+        return new TemplateType(1L, "Birthday");
+    }
+
+    public static Letter getLetter() {
+        return Letter.builder()
+                .id(1L)
+                .name("Birthday John Block")
+                .dueDate(Date.valueOf(LocalDate.now()))
+                .letterType(getLetterType())
+                .letterStatus(getLetterStatus())
+                .username(getUser())
+                .templateType(getTemplateType())
+                .build();
+    }
+
+    public static ClickCriteria getClickCriteria() {
+        return new ClickCriteria(1L, Optional.of(1), Optional.of(2));
     }
 
 }

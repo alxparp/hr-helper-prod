@@ -6,65 +6,54 @@
 </head>
 <body>
 
-<div id="wrapper">
-    <div id="gen_nav">
-        <div id="templ_nav">
-            <a href="">New Letter</a>
-            <a href="">New Reminder</a>
-            <a href="">Templates</a>
-        </div>
-        <div id="nav">
-            <ul>
-                <li><span sec:authentication="principal.firstName">not found</span>
-                    <span sec:authentication="principal.lastName">not found</span> &nbsp;&nbsp;|</li>
-                <li><a th:href="@{/logout}">Log Out</a> &nbsp;&nbsp;|</li>
-                <li><a id="myBtn">Location</a> &nbsp;&nbsp;|</li>
-                <li><a th:href="@{/admin}">admin</a></li>
-            </ul>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div id="content">
-        <!-- Tab links -->
-        <div class="tab">
-            <button th:each="letterType, iterStat: ${letterTypes}"
-                    class="tablinks"
-                    th:attrappend="id=${iterStat.index == 0} ? 'defaultOpen'"
-                    th:onclick="'openCity(event,' + ${letterType.getId()} + ');'"
-                    th:text="${letterType.getType()}"></button>
+    <div id="wrapper">
+        <div id="gen_nav">
+            <div id="templ_nav">
+                <a href="">New Letter</a>
+                <a href="">New Reminder</a>
+                <a href="">Templates</a>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><span sec:authentication="principal.firstName">not found</span>
+                        <span sec:authentication="principal.lastName">not found</span> &nbsp;&nbsp;|</li>
+                    <li><a th:href="@{/logout}">Log Out</a> &nbsp;&nbsp;|</li>
+                    <li><a id="myBtn">Location</a> &nbsp;&nbsp;|</li>
+                    <li><a th:href="@{/admin}">admin</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
         </div>
 
-        <!-- Tab content -->
-        <div th:each="letterType: ${letterTypes}"
-             th:attrappend="id=${letterType.getId()}"
-             class="tabcontent">
-            <table></table>
+        <div id="content">
+            <!-- Tab links -->
+            <div class="tab">
+                <button th:each="letterType, iterStat: ${letterTypes}"
+                        class="tablinks"
+                        th:attrappend="id=${iterStat.index == 0} ? 'defaultOpen'"
+                        th:onclick="'showLetters(event,' + ${letterType.getId()} + ');'"
+                        th:text="${letterType.getType()}"></button>
+            </div>
+
+            <!-- Tab content -->
+            <div th:each="letterType: ${letterTypes}"
+                 th:attrappend="id=${letterType.getId()}"
+                 class="tabcontent">
+                <table></table>
+            </div>
+        </div>
+
+        <!-- Paginator-->
+        <div id="paginator"></div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Some text in the Modal..</p>
         </div>
     </div>
-
-    <div id="paginator">
-
-    </div>
-
-<!--    <div th:if="${letterPage.totalPages > 0}"-->
-<!--         class="paginator">-->
-<!--        <a style="cursor: pointer;" th:each="pageNumber: ${pageNumbers}"-->
-<!--           th:onclick="'clickPagination(event,' + ${letterPage.size} + ',' + ${pageNumber} + ');'"-->
-<!--           th:text="${pageNumber}"-->
-<!--           th:class="${pageNumber == letterPage.number + 1} ? active"></a>-->
-<!--    </div>-->
-
-</div>
-
-<div id="myModal" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>
-    </div>
-
-</div>
 <script type="text/javascript"
         src="webjars/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
