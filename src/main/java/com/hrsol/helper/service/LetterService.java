@@ -6,6 +6,7 @@ import com.hrsol.helper.model.LetterDTO;
 import com.hrsol.helper.repository.LetterRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,9 +14,12 @@ import java.util.List;
 public class LetterService {
 
     private final LetterRepository letterRepository;
+    private final LetterTypeService letterTypeService;
 
-    public LetterService(LetterRepository letterRepository) {
+    public LetterService(LetterRepository letterRepository,
+                         LetterTypeService letterTypeService) {
         this.letterRepository = letterRepository;
+        this.letterTypeService = letterTypeService;
     }
 
     public List<LetterDTO> findByType(LetterType letterType) {
@@ -34,5 +38,11 @@ public class LetterService {
                 .stream()
                 .map(LetterConverter::LetterToDTO)
                 .toList();
+    }
+
+    @Transactional
+    public int approveGeneratedLetter(Long id) {
+        LetterType letterType = letterTypeService.findById(2L);
+        return letterRepository.approveGeneratedLetter(letterType, id);
     }
 }

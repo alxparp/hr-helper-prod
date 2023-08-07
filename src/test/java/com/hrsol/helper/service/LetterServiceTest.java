@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,6 +24,8 @@ class LetterServiceTest {
 
     @Mock
     private LetterRepository letterRepository;
+    @Mock
+    private LetterTypeService letterTypeService;
     private LetterService letterService;
     private LetterType letterType;
     private Letter letter;
@@ -32,7 +33,7 @@ class LetterServiceTest {
 
     @BeforeEach
     void setUp() {
-        letterService = new LetterService(letterRepository);
+        letterService = new LetterService(letterRepository, letterTypeService);
         letterType = DummyObjects.getLetterType();
         letter = DummyObjects.getLetter();
         letterDTOSExpected = List.of(LetterConverter.LetterToDTO(letter));

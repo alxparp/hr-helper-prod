@@ -1,7 +1,7 @@
 <html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Main screen</title>
     <link th:href="@{/css/main.css}" rel="stylesheet" />
 </head>
 <body>
@@ -9,9 +9,9 @@
     <div id="wrapper">
         <div id="gen_nav">
             <div id="templ_nav">
-                <a href="">New Letter</a>
-                <a href="">New Reminder</a>
-                <a href="">Templates</a>
+                <a th:href="@{/main/letter}">New Letter</a>
+                <a th:href="@{/main/reminder}">New Reminder</a>
+                <a th:href="@{/main/templates}">Templates</a>
             </div>
             <div id="nav">
                 <ul>

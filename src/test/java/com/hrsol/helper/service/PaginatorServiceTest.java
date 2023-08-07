@@ -67,4 +67,12 @@ class PaginatorServiceTest {
         Assertions.assertEquals(letterPageExpected, letterPageActual);
 
     }
+
+    @Test
+    void generatePageNumbers() {
+        List<Integer> pageNumbersExpected = List.of(1,2,3,4,5,6);
+        List<Integer> pageNumbersActual = paginatorService.generatePageNumbers(pageNumbersExpected.size());
+        Assertions.assertEquals(pageNumbersExpected, pageNumbersActual);
+
+    }
 }

@@ -4,6 +4,7 @@ import com.hrsol.helper.model.AjaxResponseBody;
 import com.hrsol.helper.model.ClickCriteria;
 import com.hrsol.helper.model.LetterDTO;
 import com.hrsol.helper.model.LetterTypeDTO;
+import com.hrsol.helper.service.LetterService;
 import com.hrsol.helper.service.LetterTypeService;
 import com.hrsol.helper.service.PaginatorService;
 import jakarta.validation.Valid;
@@ -21,14 +22,17 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/main")
-public class LetterController {
+public class MainController {
 
     private final LetterTypeService letterTypeService;
+    private final LetterService letterService;
     private final PaginatorService paginatorService;
 
-    public LetterController(LetterTypeService letterTypeService,
-                            PaginatorService paginatorService) {
+    public MainController(LetterTypeService letterTypeService,
+                          LetterService letterService,
+                          PaginatorService paginatorService) {
         this.letterTypeService = letterTypeService;
+        this.letterService = letterService;
         this.paginatorService = paginatorService;
     }
 
@@ -45,7 +49,17 @@ public class LetterController {
             @Valid @RequestBody ClickCriteria clickCriteria, Errors errors) {
 
         AjaxResponseBody result = new AjaxResponseBody();
+        ResponseEntity<?> response = checkErrors(clickCriteria, errors, result);
+        if (response != null) return response;
 
+        formPageResult(clickCriteria, result);
+
+        return ResponseEntity.ok(result);
+    }
+
+    public ResponseEntity<?> checkErrors(ClickCriteria clickCriteria,
+                                         Errors errors,
+                                         AjaxResponseBody result) {
         if (errors.hasErrors()) {
             result.setMsg(errors.getAllErrors()
                     .stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -59,9 +73,7 @@ public class LetterController {
             return ResponseEntity.badRequest().body(result);
         }
 
-        formPageResult(clickCriteria, result);
-
-        return ResponseEntity.ok(result);
+        return null;
     }
 
     private void formPageResult(ClickCriteria clickCriteria, AjaxResponseBody result) {
@@ -77,6 +89,21 @@ public class LetterController {
         result.setResult(letterPage);
     }
 
+    @PostMapping(value = "/approveLetter", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> approveLetter(
+            @Valid @RequestBody ClickCriteria clickCriteria, Errors errors) {
+
+        AjaxResponseBody result = new AjaxResponseBody();
+        ResponseEntity<?> response = checkErrors(clickCriteria, errors, result);
+        if (response != null) return response;
+
+        int flag = letterService.approveGeneratedLetter(clickCriteria.getId());
+        if (flag == 0) result.setMsg("Can't approve the letter");
+        else result.setMsg("Success");
+
+        return ResponseEntity.ok(result);
+    }
 
 
 }

@@ -22,4 +22,19 @@ public class UserController {
     public String admin() {
         return "admin-main";
     }
+
+    @GetMapping("main/letter")
+    public String letter() {
+        return "letter";
+    }
+
+    @GetMapping("main/reminder")
+    public String reminder() {
+        return "reminder";
+    }
+
+    @GetMapping("main/templates")
+    public String templates() {
+        return "templates";
+    }
 }

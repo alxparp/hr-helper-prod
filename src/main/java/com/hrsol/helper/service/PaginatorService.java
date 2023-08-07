@@ -1,7 +1,6 @@
 package com.hrsol.helper.service;
 
 import com.hrsol.helper.entity.LetterType;
-import com.hrsol.helper.model.AjaxResponseBody;
 import com.hrsol.helper.model.ClickCriteria;
 import com.hrsol.helper.model.LetterDTO;
 import org.springframework.data.domain.Page;

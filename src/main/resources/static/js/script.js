@@ -95,6 +95,11 @@ function fire_ajax_submit(letterTypeId, size, pageNumber) {
 function displayLetters(table, data) {
     table.innerHTML = "";
 
+    if (data.msg !== "Success") {
+        table.innerHTML = data.msg;
+        return;
+    }
+
     var result = "<tr>\n" +
         "<th>Name</th>\n" +
         "<th>Due Date</th>\n" +
@@ -108,11 +113,34 @@ function displayLetters(table, data) {
             "<td>" + value.dueDate + "</td>" +
             "<td>" + value.letterStatus + "</td>" +
             "<td>" + value.city + "</td>" +
-            "<td><a href=\"\">Edit</a> | <a href=\"\">Approve</a></td></tr>";
+            "<td><a href=\"\">Edit</a> | <a onclick='approveGeneratedLetter(event, " + value.id + ")' >Approve</a></td></tr>";
     });
 
     if (data.result.length === 0) result = data.msg;
     table.innerHTML = result;
+}
+
+function approveGeneratedLetter(event, letterId) {
+    var criteria = {}
+    criteria["id"] = letterId;
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/main/approveLetter",
+        data: JSON.stringify(criteria),
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            fire_ajax_submit(letterTypeIdGlobal, null, null);
+            console.log("SUCCESS : ", data);
+        },
+        error: function (e) {
+            // table.innerHTML = "<span style='color:red;'>Something went wrong!!!</span>"
+            console.log("ERROR : ", e);
+        }
+    });
 }
 
 function displayPaginator(data) {
