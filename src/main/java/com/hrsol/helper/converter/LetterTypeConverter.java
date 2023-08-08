@@ -1,7 +1,7 @@
 package com.hrsol.helper.converter;
 
 import com.hrsol.helper.entity.LetterType;
-import com.hrsol.helper.model.LetterTypeDTO;
+import com.hrsol.helper.model.dto.LetterTypeDTO;
 
 public class LetterTypeConverter {
 

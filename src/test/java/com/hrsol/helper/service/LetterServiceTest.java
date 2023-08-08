@@ -4,8 +4,9 @@ import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.converter.LetterConverter;
 import com.hrsol.helper.entity.Letter;
 import com.hrsol.helper.entity.LetterType;
-import com.hrsol.helper.model.LetterDTO;
+import com.hrsol.helper.model.dto.LetterDTO;
 import com.hrsol.helper.repository.LetterRepository;
+import com.hrsol.helper.service.impl.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +28,12 @@ class LetterServiceTest {
     private LetterRepository letterRepository;
     @Mock
     private LetterTypeService letterTypeService;
+    @Mock
+    private LetterStatusService letterStatusService;
+    @Mock
+    private UserService userService;
+    @Mock
+    private TemplateTypeService templateTypeService;
     private LetterService letterService;
     private LetterType letterType;
     private Letter letter;
@@ -33,7 +41,8 @@ class LetterServiceTest {
 
     @BeforeEach
     void setUp() {
-        letterService = new LetterService(letterRepository, letterTypeService);
+        letterService = new LetterService(
+                letterRepository, letterTypeService, letterStatusService, userService, templateTypeService);
         letterType = DummyObjects.getLetterType();
         letter = DummyObjects.getLetter();
         letterDTOSExpected = List.of(LetterConverter.LetterToDTO(letter));
@@ -63,7 +72,6 @@ class LetterServiceTest {
 
         // then
         Assertions.assertEquals(5, size);
-
     }
 
     @Test
@@ -77,6 +85,28 @@ class LetterServiceTest {
 
         // then
         Assertions.assertEquals(letterDTOSExpected, letterDTOSActual);
+    }
 
+    @Test
+    void approveGeneratedLetter() {
+        // given
+        int resultExpected = 1;
+        when(letterTypeService.findById(anyLong())).thenReturn(letterType);
+        when(letterRepository.approveGeneratedLetter(letterType, letter.getId())).thenReturn(resultExpected);
+
+        // when
+        int resultActual = letterService.approveGeneratedLetter(letter.getId());
+
+        // then
+        Assertions.assertEquals(resultExpected, resultActual);
+    }
+
+    @Test
+    void containsId() {
+        when(letterRepository.existsById(letter.getId())).thenReturn(true);
+
+        boolean isContainsActual = letterService.containsId(letter.getId());
+
+        Assertions.assertTrue(isContainsActual);
     }
 }

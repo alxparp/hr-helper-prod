@@ -90,6 +90,12 @@
     border: 1px solid #ccc;
 }
 
+.approve {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
 #paginator {
     text-align: center;
 }

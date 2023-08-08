@@ -3,6 +3,7 @@ package com.hrsol.helper.service;
 import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.entity.ConfirmationToken;
 import com.hrsol.helper.repository.ConfirmationTokenRepository;
+import com.hrsol.helper.service.impl.ConfirmationTokenService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,13 +12,9 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Clock;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

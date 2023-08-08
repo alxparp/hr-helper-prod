@@ -2,10 +2,10 @@ package com.hrsol.helper.controller;
 
 import com.hrsol.helper.model.AjaxResponseBody;
 import com.hrsol.helper.model.ClickCriteria;
-import com.hrsol.helper.model.LetterDTO;
-import com.hrsol.helper.model.LetterTypeDTO;
-import com.hrsol.helper.service.LetterService;
-import com.hrsol.helper.service.LetterTypeService;
+import com.hrsol.helper.model.dto.LetterDTO;
+import com.hrsol.helper.model.dto.LetterTypeDTO;
+import com.hrsol.helper.service.impl.LetterService;
+import com.hrsol.helper.service.impl.LetterTypeService;
 import com.hrsol.helper.service.PaginatorService;
 import jakarta.validation.Valid;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -49,15 +49,20 @@ public class MainController {
             @Valid @RequestBody ClickCriteria clickCriteria, Errors errors) {
 
         AjaxResponseBody result = new AjaxResponseBody();
-        ResponseEntity<?> response = checkErrors(clickCriteria, errors, result);
+        ResponseEntity<?> response = checkErrors(clickCriteria.getId(), errors, result);
         if (response != null) return response;
+
+        if (!letterTypeService.containsId(clickCriteria.getId())) {
+            result.setMsg("Such letter type doesn't exist");
+            return ResponseEntity.badRequest().body(result);
+        }
 
         formPageResult(clickCriteria, result);
 
         return ResponseEntity.ok(result);
     }
 
-    public ResponseEntity<?> checkErrors(ClickCriteria clickCriteria,
+    public ResponseEntity<?> checkErrors(Long id,
                                          Errors errors,
                                          AjaxResponseBody result) {
         if (errors.hasErrors()) {
@@ -65,11 +70,6 @@ public class MainController {
                     .stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.joining(",")));
 
-            return ResponseEntity.badRequest().body(result);
-        }
-
-        if (!letterTypeService.containsId(clickCriteria.getId())) {
-            result.setMsg("Such letter type doesn't exist");
             return ResponseEntity.badRequest().body(result);
         }
 
@@ -92,13 +92,18 @@ public class MainController {
     @PostMapping(value = "/approveLetter", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> approveLetter(
-            @Valid @RequestBody ClickCriteria clickCriteria, Errors errors) {
+            @Valid @RequestBody LetterDTO letterDTO, Errors errors) {
 
         AjaxResponseBody result = new AjaxResponseBody();
-        ResponseEntity<?> response = checkErrors(clickCriteria, errors, result);
+        ResponseEntity<?> response = checkErrors(letterDTO.getId(), errors, result);
         if (response != null) return response;
 
-        int flag = letterService.approveGeneratedLetter(clickCriteria.getId());
+        if (!letterService.containsId(letterDTO.getId())) {
+            result.setMsg("Such letter doesn't exist");
+            return ResponseEntity.badRequest().body(result);
+        }
+
+        int flag = letterService.approveGeneratedLetter(letterDTO.getId());
         if (flag == 0) result.setMsg("Can't approve the letter");
         else result.setMsg("Success");
 

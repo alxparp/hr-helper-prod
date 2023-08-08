@@ -3,8 +3,9 @@ package com.hrsol.helper.service;
 import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.converter.LetterTypeConverter;
 import com.hrsol.helper.entity.LetterType;
-import com.hrsol.helper.model.LetterTypeDTO;
+import com.hrsol.helper.model.dto.LetterTypeDTO;
 import com.hrsol.helper.repository.LetterTypeRepository;
+import com.hrsol.helper.service.impl.LetterTypeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,11 +27,9 @@ class LetterTypeServiceTest {
     private LetterTypeRepository letterTypeRepository;
     private LetterTypeService letterTypeService;
     private LetterType letterType;
-    private Long id;
 
     @BeforeEach
     void setUp() {
-        id = 1L;
         letterTypeService = new LetterTypeService(letterTypeRepository);
         letterType = DummyObjects.getLetterType();
     }
@@ -51,10 +50,10 @@ class LetterTypeServiceTest {
     @Test
     void findById() {
         // given
-        when(letterTypeRepository.findById(id)).thenReturn(Optional.of(letterType));
+        when(letterTypeRepository.findById(letterType.getId())).thenReturn(Optional.of(letterType));
 
         // when
-        LetterType letterTypeActual = letterTypeService.findById(id);
+        LetterType letterTypeActual = letterTypeService.findById(letterType.getId());
 
         // then
         Assertions.assertEquals(letterType, letterTypeActual);
@@ -65,9 +64,9 @@ class LetterTypeServiceTest {
 
     @Test
     void containsId() {
-        when(letterTypeRepository.existsById(id)).thenReturn(true);
+        when(letterTypeRepository.existsById(letterType.getId())).thenReturn(true);
 
-        boolean isContainsActual = letterTypeService.containsId(id);
+        boolean isContainsActual = letterTypeService.containsId(letterType.getId());
 
         Assertions.assertTrue(isContainsActual);
     }

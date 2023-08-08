@@ -328,14 +328,14 @@ databaseChangeLog:
                   value: 2
               - column:
                   name: type
-                  value: Actual
+                  value: Approved
 
         - insert:
             tableName: letter_t
             columns:
-              - column:
-                  name: id
-                  value: 1
+#              - column:
+#                  name: id
+#                  value: 1
               - column:
                   name: name
                   value: Birthday John Block
@@ -358,34 +358,34 @@ databaseChangeLog:
         - insert:
             tableName: letter_t
             columns:
+#              - column:
+#                  name: id
+#                  value: 2
               - column:
-                  name: id
+                  name: name
+                  value: Anniversary Tom Ford
+              - column:
+                  name: due_date
+                  value: now()
+              - column:
+                  name: letter_status_id
+                  value: 1
+              - column:
+                  name: username
+                  value: linda
+              - column:
+                  name: letter_type_id
+                  value: 1
+              - column:
+                  name: template_type_id
                   value: 2
-              - column:
-                  name: name
-                  value: Anniversary Tom Ford
-              - column:
-                  name: due_date
-                  value: now()
-              - column:
-                  name: letter_status_id
-                  value: 1
-              - column:
-                  name: username
-                  value: linda
-              - column:
-                  name: letter_type_id
-                  value: 1
-              - column:
-                  name: template_type_id
-                  value: 2
 
         - insert:
             tableName: letter_t
             columns:
-              - column:
-                  name: id
-                  value: 3
+#              - column:
+#                  name: id
+#                  value: 3
               - column:
                   name: name
                   value: Anniversary Tom Ford
@@ -408,9 +408,9 @@ databaseChangeLog:
         - insert:
             tableName: letter_t
             columns:
-              - column:
-                  name: id
-                  value: 4
+#              - column:
+#                  name: id
+#                  value: 4
               - column:
                   name: name
                   value: Anniversary Tom Ford
@@ -433,9 +433,9 @@ databaseChangeLog:
         - insert:
             tableName: letter_t
             columns:
-              - column:
-                  name: id
-                  value: 5
+#              - column:
+#                  name: id
+#                  value: 5
               - column:
                   name: name
                   value: Vacation Tom Ford

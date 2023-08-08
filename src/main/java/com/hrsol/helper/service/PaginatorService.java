@@ -2,7 +2,9 @@ package com.hrsol.helper.service;
 
 import com.hrsol.helper.entity.LetterType;
 import com.hrsol.helper.model.ClickCriteria;
-import com.hrsol.helper.model.LetterDTO;
+import com.hrsol.helper.model.dto.LetterDTO;
+import com.hrsol.helper.service.impl.LetterService;
+import com.hrsol.helper.service.impl.LetterTypeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;

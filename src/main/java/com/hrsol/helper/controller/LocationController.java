@@ -1,7 +1,7 @@
 package com.hrsol.helper.controller;
 
-import com.hrsol.helper.model.LocationDTO;
-import com.hrsol.helper.service.LocationService;
+import com.hrsol.helper.model.dto.LocationDTO;
+import com.hrsol.helper.service.impl.LocationService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

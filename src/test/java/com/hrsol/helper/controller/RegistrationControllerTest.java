@@ -3,7 +3,7 @@ package com.hrsol.helper.controller;
 import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.converter.UserConverter;
 import com.hrsol.helper.entity.User;
-import com.hrsol.helper.model.UserDTO;
+import com.hrsol.helper.model.dto.UserDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

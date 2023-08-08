@@ -1,10 +1,10 @@
-package com.hrsol.helper.service;
+package com.hrsol.helper.service.impl;
 
 import com.hrsol.helper.entity.Role;
 import com.hrsol.helper.entity.User;
 import com.hrsol.helper.repository.UserRepository;
 import com.hrsol.helper.converter.UserConverter;
-import com.hrsol.helper.model.UserDTO;
+import com.hrsol.helper.model.dto.UserDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.hrsol.helper.converter;
 
 import com.hrsol.helper.entity.Location;
-import com.hrsol.helper.model.LocationDTO;
+import com.hrsol.helper.model.dto.LocationDTO;
 
 public class LocationConverter {
 

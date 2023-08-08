@@ -1,4 +1,4 @@
-package com.hrsol.helper.service;
+package com.hrsol.helper.service.impl;
 
 import com.hrsol.helper.entity.ConfirmationToken;
 import com.hrsol.helper.repository.ConfirmationTokenRepository;

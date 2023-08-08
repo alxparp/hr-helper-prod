@@ -1,5 +1,6 @@
 package com.hrsol.helper.model;
 
+import com.hrsol.helper.model.dto.LetterDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

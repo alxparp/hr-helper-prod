@@ -3,8 +3,9 @@ package com.hrsol.helper.service;
 import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.converter.LocationConverter;
 import com.hrsol.helper.entity.Location;
-import com.hrsol.helper.model.LocationDTO;
+import com.hrsol.helper.model.dto.LocationDTO;
 import com.hrsol.helper.repository.LocationRepository;
+import com.hrsol.helper.service.impl.LocationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

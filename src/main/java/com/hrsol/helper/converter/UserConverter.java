@@ -3,7 +3,7 @@ package com.hrsol.helper.converter;
 import com.hrsol.helper.entity.Location;
 import com.hrsol.helper.entity.User;
 import com.hrsol.helper.entity.UserStatus;
-import com.hrsol.helper.model.UserDTO;
+import com.hrsol.helper.model.dto.UserDTO;
 
 import java.sql.Date;
 

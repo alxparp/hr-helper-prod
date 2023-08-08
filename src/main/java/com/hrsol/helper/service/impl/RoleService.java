@@ -1,4 +1,4 @@
-package com.hrsol.helper.service;
+package com.hrsol.helper.service.impl;
 
 import com.hrsol.helper.entity.Role;
 import com.hrsol.helper.repository.RoleRepository;

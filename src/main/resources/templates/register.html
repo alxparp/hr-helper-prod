@@ -93,8 +93,9 @@
   <br />
 
   <label for="location">Location: </label>
-  <select name="location" id="location" th:each="location: ${locations}">
-    <option th:text="${location.getCity()}"></option>
+  <select name="location" id="location">
+    <option th:each="location: ${locations}"
+            th:text="${location.getCity()}"></option>
   </select>
   <br />
 

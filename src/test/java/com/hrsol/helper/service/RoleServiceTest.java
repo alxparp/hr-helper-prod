@@ -3,6 +3,7 @@ package com.hrsol.helper.service;
 import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.entity.Role;
 import com.hrsol.helper.repository.RoleRepository;
+import com.hrsol.helper.service.impl.RoleService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

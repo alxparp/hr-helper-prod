@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LetterTypeRepository extends JpaRepository<LetterType, Long> {
 
+    LetterType findByType(String type);
+
 }

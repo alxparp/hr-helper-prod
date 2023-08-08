@@ -1,4 +1,4 @@
-package com.hrsol.helper.service;
+package com.hrsol.helper.service.impl;
 
 import com.hrsol.helper.entity.UserStatus;
 import com.hrsol.helper.entity.enums.UserStatusType;

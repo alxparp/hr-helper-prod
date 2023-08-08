@@ -1,6 +1,6 @@
 package com.hrsol.helper.controller;
 
-import com.hrsol.helper.service.UserService;
+import com.hrsol.helper.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -21,11 +21,6 @@ public class UserController {
     @GetMapping("/admin")
     public String admin() {
         return "admin-main";
-    }
-
-    @GetMapping("main/letter")
-    public String letter() {
-        return "letter";
     }
 
     @GetMapping("main/reminder")

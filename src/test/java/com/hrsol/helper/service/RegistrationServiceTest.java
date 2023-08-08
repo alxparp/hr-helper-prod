@@ -5,7 +5,9 @@ import com.hrsol.helper.converter.UserConverter;
 import com.hrsol.helper.entity.ConfirmationToken;
 import com.hrsol.helper.entity.User;
 import com.hrsol.helper.model.NotificationRequest;
-import com.hrsol.helper.model.UserDTO;
+import com.hrsol.helper.model.dto.UserDTO;
+import com.hrsol.helper.service.impl.ConfirmationTokenService;
+import com.hrsol.helper.service.impl.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package com.hrsol.helper.model;
+package com.hrsol.helper.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

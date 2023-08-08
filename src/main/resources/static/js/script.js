@@ -113,7 +113,7 @@ function displayLetters(table, data) {
             "<td>" + value.dueDate + "</td>" +
             "<td>" + value.letterStatus + "</td>" +
             "<td>" + value.city + "</td>" +
-            "<td><a href=\"\">Edit</a> | <a onclick='approveGeneratedLetter(event, " + value.id + ")' >Approve</a></td></tr>";
+            "<td><a href='/main/letter/edit?id=" + value.id + "'>Edit</a> | <a class='approve' onclick='approveGeneratedLetter(event, " + value.id + ")' >Approve</a></td></tr>";
     });
 
     if (data.result.length === 0) result = data.msg;

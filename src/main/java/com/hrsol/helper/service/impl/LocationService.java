@@ -1,8 +1,8 @@
-package com.hrsol.helper.service;
+package com.hrsol.helper.service.impl;
 
 import com.hrsol.helper.converter.LocationConverter;
 import com.hrsol.helper.entity.Location;
-import com.hrsol.helper.model.LocationDTO;
+import com.hrsol.helper.model.dto.LocationDTO;
 import com.hrsol.helper.repository.LocationRepository;
 import org.springframework.stereotype.Service;
 
