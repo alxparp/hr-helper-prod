@@ -5,7 +5,6 @@ import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.model.AjaxResponseBody;
 import com.hrsol.helper.model.ClickCriteria;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

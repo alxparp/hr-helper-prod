@@ -25,5 +25,9 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
     int approveGeneratedLetter(@Param("letterType") LetterType letterType,
                                    @Param("id") Long id);
 
+    List<Letter> findByLetterTypeAndUsername_Location_CityIn(LetterType letterType, List<String> cities, Pageable pageable);
+
+    Integer countByLetterTypeAndUsername_Location_CityIn(LetterType letterType, List<String> cities);
+
 
 }

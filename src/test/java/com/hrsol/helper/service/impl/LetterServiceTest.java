@@ -1,9 +1,8 @@
-package com.hrsol.helper.service;
+package com.hrsol.helper.service.impl;
 
 import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.converter.LetterConverter;
-import com.hrsol.helper.entity.Letter;
-import com.hrsol.helper.entity.LetterType;
+import com.hrsol.helper.entity.*;
 import com.hrsol.helper.model.dto.LetterDTO;
 import com.hrsol.helper.repository.LetterRepository;
 import com.hrsol.helper.service.impl.*;
@@ -17,9 +16,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class LetterServiceTest {
@@ -37,7 +40,10 @@ class LetterServiceTest {
     private LetterService letterService;
     private LetterType letterType;
     private Letter letter;
-    List<LetterDTO> letterDTOSExpected;
+    private List<LetterDTO> letterDTOSExpected;
+    private LetterStatus letterStatus;
+    private User user;
+    private TemplateType templateType;
 
     @BeforeEach
     void setUp() {
@@ -46,6 +52,9 @@ class LetterServiceTest {
         letterType = DummyObjects.getLetterType();
         letter = DummyObjects.getLetter();
         letterDTOSExpected = List.of(LetterConverter.LetterToDTO(letter));
+        letterStatus = DummyObjects.getLetterStatus();
+        user = DummyObjects.getUser();
+        templateType = DummyObjects.getTemplateType();
     }
 
     @Test
@@ -108,5 +117,35 @@ class LetterServiceTest {
         boolean isContainsActual = letterService.containsId(letter.getId());
 
         Assertions.assertTrue(isContainsActual);
+    }
+
+    @Test
+    void save() {
+        LetterDTO letterDTO = LetterConverter.LetterToDTO(letter);
+        when(letterStatusService.findByType(letterDTO.getLetterStatus())).thenReturn(letterStatus);
+        when(userService.findByUsername(letterDTO.getUsername())).thenReturn(letter.getUsername());
+        when(letterTypeService.findByType(letterDTO.getLetterType())).thenReturn(letterType);
+        when(templateTypeService.findByType(letterDTO.getTemplateType())).thenReturn(templateType);
+        when(letterRepository.save(letter)).thenReturn(letter);
+
+        Letter letterActual = letterService.save(letterDTO);
+
+        Assertions.assertEquals(letter, letterActual);
+    }
+
+    @Test
+    void findById() {
+        // given
+        LetterDTO letterDTOExpected = LetterConverter.LetterToDTO(letter);
+        when(letterRepository.findById(letter.getId())).thenReturn(Optional.of(letter));
+
+        // when
+        LetterDTO letterDTOActual = letterService.findById(letter.getId());
+
+        // then
+        Assertions.assertEquals(letterDTOExpected, letterDTOActual);
+        assertThrows(NoSuchElementException.class, () -> {
+            letterService.findById(2L);
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.hrsol.helper.service;
 
 import com.hrsol.helper.entity.LetterType;
+import com.hrsol.helper.model.City;
 import com.hrsol.helper.model.ClickCriteria;
 import com.hrsol.helper.model.dto.LetterDTO;
 import com.hrsol.helper.service.impl.LetterService;
@@ -31,12 +32,23 @@ public class PaginatorService {
     public Page<LetterDTO> configurePaginator(ClickCriteria clickCriteria) {
         int currentPage = clickCriteria.getPage().orElse(CURRENT_PAGE_DEFAULT);
         int pageSize = clickCriteria.getSize().orElse(PAGE_SIZE_DEFAULT);
-
         LetterType letterType = letterTypeService.findById(clickCriteria.getId());
+
         int size = letterService.getSizeByType(letterType);
         PageRequest request = PageRequest.of(currentPage - 1, pageSize);
-
         List<LetterDTO> letters = letterService.findByLetterType(letterType, request);
+
+        return new PageImpl<>(letters, request, size);
+    }
+
+    public Page<LetterDTO> configurePaginatorByCities(City city) {
+        int currentPage = city.getPage().orElse(CURRENT_PAGE_DEFAULT);
+        int pageSize = city.getSize().orElse(PAGE_SIZE_DEFAULT);
+        LetterType letterType = letterTypeService.findById(city.getId());
+
+        int size = letterService.getSizeByLetterTypeAndCities(letterType, city.getCity());
+        PageRequest request = PageRequest.of(currentPage - 1, pageSize);
+        List<LetterDTO> letters = letterService.findByLetterTypeAndCities(letterType,city.getCity(), request);
 
         return new PageImpl<>(letters, request, size);
     }

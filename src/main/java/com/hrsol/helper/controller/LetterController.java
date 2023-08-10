@@ -48,7 +48,7 @@ public class LetterController {
         return "letter";
     }
 
-    public Map<String, List<?>> getSelectObjects() {
+    private Map<String, List<?>> getSelectObjects() {
         Map<String, List<?>> selectObjects = new HashMap<>();
         selectObjects.put("letterStatuses", letterStatuses == null ? letterStatusService.getAll() : letterStatuses);
         selectObjects.put("users", users == null ? userService.findAllUsers() : users);

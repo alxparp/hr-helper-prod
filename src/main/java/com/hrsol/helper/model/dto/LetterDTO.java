@@ -17,8 +17,6 @@ import java.util.Date;
 @Builder
 public class LetterDTO {
 
-//    @NotNull(message = "Id can't be null!")
-//    @Min(value = 0, message = "Value can't be less than 0")
     private Long id;
     @NotEmpty(message = "Name should not be empty")
     private String name;

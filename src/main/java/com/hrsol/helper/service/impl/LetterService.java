@@ -50,6 +50,17 @@ public class LetterService {
                 .toList();
     }
 
+    public List<LetterDTO> findByLetterTypeAndCities(LetterType letterType, List<String> cities, Pageable pageable) {
+        return letterRepository.findByLetterTypeAndUsername_Location_CityIn(letterType, cities, pageable)
+                .stream()
+                .map(LetterConverter::LetterToDTO)
+                .toList();
+    }
+
+    public Integer getSizeByLetterTypeAndCities(LetterType letterType, List<String> cities) {
+        return letterRepository.countByLetterTypeAndUsername_Location_CityIn(letterType, cities);
+    }
+
     @Transactional
     public int approveGeneratedLetter(Long id) {
         LetterType letterType = letterTypeService.findById(2L);

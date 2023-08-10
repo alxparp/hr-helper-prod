@@ -1,4 +1,4 @@
-package com.hrsol.helper.service;
+package com.hrsol.helper.service.impl;
 
 import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.converter.LetterTypeConverter;
@@ -69,5 +69,14 @@ class LetterTypeServiceTest {
         boolean isContainsActual = letterTypeService.containsId(letterType.getId());
 
         Assertions.assertTrue(isContainsActual);
+    }
+
+    @Test
+    void findByType() {
+        when(letterTypeRepository.findByType(letterType.getType())).thenReturn(letterType);
+
+        LetterType letterTypeActual = letterTypeService.findByType(letterType.getType());
+
+        Assertions.assertEquals(letterType, letterTypeActual);
     }
 }

@@ -29,7 +29,6 @@ function showLetters(evt, letterTypeId) {
 }
 
 
-
 // Modal window ----------------------------------------
 
 // Get the modal
@@ -42,32 +41,31 @@ var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal
-btn.onclick = function() {
+btn.onclick = function () {
     modal.style.display = "block";
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+span.onclick = function () {
     modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
 }
 
 
-
 // Load information clicking on the tab -----------------------
 
 // Ajax
 function fire_ajax_submit(letterTypeId, size, pageNumber) {
-   var criteria = {}
-   criteria["id"] = letterTypeId;
-   criteria["size"] = size;
-   criteria["page"] = pageNumber;
+    var criteria = {}
+    criteria["id"] = letterTypeId;
+    criteria["size"] = size;
+    criteria["page"] = pageNumber;
 
     var tabcontent = document.getElementById(letterTypeId);
     var table = tabcontent.getElementsByTagName("table").item(0);
@@ -108,7 +106,7 @@ function displayLetters(table, data) {
         "<th>Action</th>\n" +
         "</tr>";
 
-    $.each(data.result.content, function(index,value){
+    $.each(data.result.content, function (index, value) {
         result += "<tr><td>" + value.name + "</td>" +
             "<td>" + value.dueDate + "</td>" +
             "<td>" + value.letterStatus + "</td>" +
@@ -137,7 +135,6 @@ function approveGeneratedLetter(event, letterId) {
             console.log("SUCCESS : ", data);
         },
         error: function (e) {
-            // table.innerHTML = "<span style='color:red;'>Something went wrong!!!</span>"
             console.log("ERROR : ", e);
         }
     });
@@ -148,7 +145,7 @@ function displayPaginator(data) {
     var paginator = document.getElementById("paginator");
     paginator.innerHTML = "";
     if (letterPage.totalPages > 0) {
-        $.each(data.pageNumbers, function(index,value){
+        $.each(data.pageNumbers, function (index, value) {
             var className = "";
             if (value === letterPage.number + 1) {
                 className = "class='active'";
@@ -163,3 +160,66 @@ function displayPaginator(data) {
 function clickPagination(event, size, pageNumber) {
     fire_ajax_submit(letterTypeIdGlobal, size, pageNumber);
 }
+
+const checkbox = document.getElementById('checkedAll')
+checkbox.addEventListener('change', (event) => {
+    var modalContent = document.getElementsByClassName("modal-content");
+    var inputs = modalContent.item(0).getElementsByTagName("input");
+    if (event.currentTarget.checked) {
+        for (var i = 1; i < inputs.length; i++) {
+            if (inputs[i].type === 'checkbox') {
+                inputs[i].checked = true;
+            }
+        }
+    } else {
+        for (var i = 1; i < inputs.length; i++) {
+            if (inputs[i].type === 'checkbox') {
+                inputs[i].checked = false;
+            }
+        }
+    }
+});
+
+$(document).ready(function ($) {
+    $(document).on('submit', '#locationForm', function(event) {
+        event.preventDefault();
+
+        var citiesJson = "{\"city\": [";
+
+        var locationForm = document.getElementById("locationForm");
+        var inputs = locationForm.getElementsByTagName("input");
+        var iter = 0;
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type === 'checkbox') {
+                if (inputs[i].checked === true) {
+                    citiesJson += "\"" + inputs[i].value + "\",";
+                    iter++;
+                }
+            }
+        }
+        if (iter > 0) citiesJson = citiesJson.slice(0,-1);
+        citiesJson += "], \"id\": " + letterTypeIdGlobal + "}";
+
+        console.log(citiesJson);
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/main/lettersByCities",
+            data: citiesJson,
+            dataType: "json",
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                var tabcontent = document.getElementById(letterTypeIdGlobal);
+                var table = tabcontent.getElementsByTagName("table").item(0);
+                displayLetters(table, data);
+                displayPaginator(data);
+                console.log(data);
+            },
+        });
+
+    });
+
+});
+

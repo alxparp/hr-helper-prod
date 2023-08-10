@@ -107,6 +107,19 @@ databaseChangeLog:
                   value: 1
 
         - insert:
+            tableName: location_t
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: city
+                  value: Kiev
+              - column:
+                  name: country_id
+                  value: 1
+
+        - insert:
             tableName: user_t
             columns:
               - column:
@@ -178,7 +191,7 @@ databaseChangeLog:
                   value: 1
               - column:
                   name: location_id
-                  value: 1
+                  value: 2
 
         - insert:
             tableName: user_role
@@ -422,7 +435,7 @@ databaseChangeLog:
                   value: 1
               - column:
                   name: username
-                  value: linda
+                  value: tom
               - column:
                   name: letter_type_id
                   value: 1
@@ -447,7 +460,7 @@ databaseChangeLog:
                   value: 1
               - column:
                   name: username
-                  value: linda
+                  value: tom
               - column:
                   name: letter_type_id
                   value: 1
