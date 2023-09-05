@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-configuration-table
+      author: Alex
+      changes:
+
+        - createTable:
+            tableName: configuration
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: location_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseColumnNames: location_id
+            baseTableName: configuration
+            constraintName: fk_config_location
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: location_t
+            validate: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: username
+            baseTableName: configuration
+            constraintName: fk_config_user
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: username
+            referencedTableName: user_t
+            validate: true

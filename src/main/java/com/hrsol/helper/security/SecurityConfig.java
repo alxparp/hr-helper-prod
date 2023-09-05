@@ -31,8 +31,8 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                                 .requestMatchers("/api/v1/locations", "/register/**", "/css/**", "/js/**").permitAll()
-                                .requestMatchers("/confirm").permitAll()
-                                .requestMatchers("/main").hasRole("ADMIN")
+                                .requestMatchers("/confirm", "/webjars/**").permitAll()
+                                .requestMatchers("/main/**", "/admin").hasAnyRole("ADMIN", "ADMINTRAINEE")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
@@ -53,6 +53,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordConfig() {
         return new BCryptPasswordEncoder(10);
     }
+
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {

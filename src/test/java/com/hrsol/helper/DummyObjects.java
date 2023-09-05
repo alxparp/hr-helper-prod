@@ -1,24 +1,22 @@
 package com.hrsol.helper;
 
 import com.hrsol.helper.entity.*;
+import com.hrsol.helper.model.LetterTypeCriteria;
 import com.hrsol.helper.model.NotificationRequest;
 import com.hrsol.helper.util.Util;
-import jakarta.mail.internet.MimeMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-import static com.hrsol.helper.entity.UserStatusType.AVAILABLE;
+import static com.hrsol.helper.entity.enums.UserStatusType.AVAILABLE;
 
 public class DummyObjects {
 
@@ -108,6 +106,34 @@ public class DummyObjects {
                 Util.CONFIRMATION,
                 "Hello world!!!"
         );
+    }
+
+    public static LetterType getLetterType() {
+        return new LetterType(1L, "Generated Drafts");
+    }
+
+    public static LetterStatus getLetterStatus() {
+        return new LetterStatus(1L, "Draft");
+    }
+
+    public static TemplateType getTemplateType() {
+        return new TemplateType(1L, "Birthday");
+    }
+
+    public static Letter getLetter() {
+        return Letter.builder()
+                .id(1L)
+                .name("Birthday John Block")
+                .dueDate(Date.valueOf(LocalDate.now()))
+                .letterType(getLetterType())
+                .letterStatus(getLetterStatus())
+                .username(getUser())
+                .templateType(getTemplateType())
+                .build();
+    }
+
+    public static LetterTypeCriteria getClickCriteria() {
+        return new LetterTypeCriteria(1L, Optional.of(1), Optional.of(2));
     }
 
 }

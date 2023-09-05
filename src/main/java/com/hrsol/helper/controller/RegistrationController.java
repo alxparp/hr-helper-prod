@@ -1,11 +1,11 @@
 package com.hrsol.helper.controller;
 
 import com.hrsol.helper.entity.User;
-import com.hrsol.helper.model.LocationDTO;
-import com.hrsol.helper.model.UserDTO;
-import com.hrsol.helper.service.LocationService;
+import com.hrsol.helper.model.dto.LocationDTO;
+import com.hrsol.helper.model.dto.UserDTO;
+import com.hrsol.helper.service.impl.LocationService;
 import com.hrsol.helper.service.RegistrationService;
-import com.hrsol.helper.service.UserService;
+import com.hrsol.helper.service.impl.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +23,7 @@ public class RegistrationController {
     private final UserService userService;
     private final RegistrationService registrationService;
     private final LocationService locationService;
+    private List<LocationDTO> locationDTOS;
 
     public RegistrationController(UserService userService,
                                   RegistrationService registrationService,
@@ -35,7 +36,7 @@ public class RegistrationController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
         UserDTO user = new UserDTO();
-        List<LocationDTO> locations = locationService.getAll();
+        List<LocationDTO> locations = getAll();
         model.addAttribute("user", user);
         model.addAttribute("locations", locations);
         return "register";
@@ -46,7 +47,7 @@ public class RegistrationController {
                        BindingResult result,
                        Model model ) {
 
-        User existingUser = userService.findByUsername(userDTO.getUsername());
+        UserDTO existingUser = userService.getDTOByUsername(userDTO.getUsername());
 
         if(existingUser != null){
             result.rejectValue("username", null,
@@ -55,7 +56,7 @@ public class RegistrationController {
 
         if(result.hasErrors()){
             model.addAttribute("user", userDTO);
-            model.addAttribute("locations", locationService.getAll());
+            model.addAttribute("locations", getAll());
             return "/register";
         }
 
@@ -66,6 +67,14 @@ public class RegistrationController {
     @GetMapping("/confirm")
     public String confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
+    }
+
+    private List<LocationDTO> getAll() {
+        if (locationDTOS == null) {
+            locationDTOS = locationService.getAll();
+            return locationDTOS;
+        }
+        return locationDTOS;
     }
 
 }

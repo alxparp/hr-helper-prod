@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/changeset/insert-initial-data.yaml
   - include:
       file: db/changelog/changeset/confirmation-token.yaml
+  - include:
+      file: db/changelog/changeset/create-configuration-table.yaml
