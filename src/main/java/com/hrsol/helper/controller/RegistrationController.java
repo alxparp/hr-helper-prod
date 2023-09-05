@@ -47,7 +47,7 @@ public class RegistrationController {
                        BindingResult result,
                        Model model ) {
 
-        User existingUser = userService.findByUsername(userDTO.getUsername());
+        UserDTO existingUser = userService.getDTOByUsername(userDTO.getUsername());
 
         if(existingUser != null){
             result.rejectValue("username", null,

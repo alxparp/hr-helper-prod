@@ -3,6 +3,8 @@ package com.hrsol.helper.service.impl;
 import com.hrsol.helper.converter.LetterConverter;
 import com.hrsol.helper.entity.Letter;
 import com.hrsol.helper.entity.LetterType;
+import com.hrsol.helper.entity.Location;
+import com.hrsol.helper.entity.User;
 import com.hrsol.helper.model.dto.LetterDTO;
 import com.hrsol.helper.repository.LetterRepository;
 import org.springframework.data.domain.Pageable;
@@ -50,15 +52,15 @@ public class LetterService {
                 .toList();
     }
 
-    public List<LetterDTO> findByLetterTypeAndCities(LetterType letterType, List<String> cities, Pageable pageable) {
-        return letterRepository.findByLetterTypeAndUsername_Location_CityIn(letterType, cities, pageable)
+    public List<LetterDTO> findByLetterTypeAndUsername_LocationIn(LetterType letterType, List<Location> locations, Pageable pageable) {
+        return letterRepository.findByLetterTypeAndUsername_LocationIn(letterType, locations, pageable)
                 .stream()
                 .map(LetterConverter::LetterToDTO)
                 .toList();
     }
 
-    public Integer getSizeByLetterTypeAndCities(LetterType letterType, List<String> cities) {
-        return letterRepository.countByLetterTypeAndUsername_Location_CityIn(letterType, cities);
+    public Integer getSizeByLetterTypeAndUsername_LocationIn(LetterType letterType, List<Location> locations) {
+        return letterRepository.countByLetterTypeAndUsername_LocationIn(letterType, locations);
     }
 
     @Transactional
@@ -71,7 +73,7 @@ public class LetterService {
         return letterRepository.existsById(id);
     }
 
-    public Letter save(LetterDTO letterDTO) {
+    public LetterDTO save(LetterDTO letterDTO) {
         Letter letter = LetterConverter.DTOToLetter(letterDTO);
 
         letter.setLetterStatus(letterStatusService.findByType(letterDTO.getLetterStatus()));
@@ -79,10 +81,10 @@ public class LetterService {
         letter.setLetterType(letterTypeService.findByType(letterDTO.getLetterType()));
         letter.setTemplateType(templateTypeService.findByType(letterDTO.getTemplateType()));
 
-        return letterRepository.save(letter);
+        return LetterConverter.LetterToDTO(letterRepository.save(letter));
     }
 
-    public Letter update(LetterDTO letterDTO) {
+    public LetterDTO update(LetterDTO letterDTO) {
         return save(letterDTO);
     }
 

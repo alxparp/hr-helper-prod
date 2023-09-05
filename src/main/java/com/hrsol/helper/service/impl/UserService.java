@@ -49,6 +49,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public UserDTO getDTOByUsername(String username) {
+        return UserConverter.userToUserDTO(findByUsername(username));
+    }
+
     public User saveUser(UserDTO userDTO) {
         User user = UserConverter.userDTOToUser(userDTO);
 

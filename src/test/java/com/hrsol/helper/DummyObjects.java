@@ -1,7 +1,7 @@
 package com.hrsol.helper;
 
 import com.hrsol.helper.entity.*;
-import com.hrsol.helper.model.ClickCriteria;
+import com.hrsol.helper.model.LetterTypeCriteria;
 import com.hrsol.helper.model.NotificationRequest;
 import com.hrsol.helper.util.Util;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -132,8 +132,8 @@ public class DummyObjects {
                 .build();
     }
 
-    public static ClickCriteria getClickCriteria() {
-        return new ClickCriteria(1L, Optional.of(1), Optional.of(2));
+    public static LetterTypeCriteria getClickCriteria() {
+        return new LetterTypeCriteria(1L, Optional.of(1), Optional.of(2));
     }
 
 }

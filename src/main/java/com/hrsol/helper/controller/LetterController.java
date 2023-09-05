@@ -17,11 +17,11 @@ import java.util.Map;
 @RequestMapping("/main/letter")
 public class LetterController {
 
-    private LetterService letterService;
-    private LetterStatusService letterStatusService;
-    private UserService userService;
-    private LetterTypeService letterTypeService;
-    private TemplateTypeService templateTypeService;
+    private final LetterService letterService;
+    private final LetterStatusService letterStatusService;
+    private final UserService userService;
+    private final LetterTypeService letterTypeService;
+    private final TemplateTypeService templateTypeService;
     private List<LetterStatusDTO> letterStatuses;
     private List<UserDTO> users;
     private List<LetterTypeDTO> letterTypes;
@@ -41,20 +41,8 @@ public class LetterController {
 
     @GetMapping("/create")
     public String create(Model model) {
-        LetterDTO letter = new LetterDTO();
-        model.addAttribute("letter", letter);
-        model.addAttribute("mode", Mode.ADD);
-        model.addAllAttributes(getSelectObjects());
+        addAttributes(model, new LetterDTO(), Mode.ADD);
         return "letter";
-    }
-
-    private Map<String, List<?>> getSelectObjects() {
-        Map<String, List<?>> selectObjects = new HashMap<>();
-        selectObjects.put("letterStatuses", letterStatuses == null ? letterStatusService.getAll() : letterStatuses);
-        selectObjects.put("users", users == null ? userService.findAllUsers() : users);
-        selectObjects.put("letterTypes", letterTypes == null ? letterTypeService.findAll() : letterTypes);
-        selectObjects.put("templateTypes", templateTypes == null ? templateTypeService.findAll() : templateTypes);
-        return selectObjects;
     }
 
     @PostMapping("/create/save")
@@ -63,9 +51,7 @@ public class LetterController {
                        Model model) {
 
         if(result.hasErrors()){
-            model.addAttribute("letter", letterDTO);
-            model.addAttribute("mode", Mode.ADD);
-            model.addAllAttributes(getSelectObjects());
+            addAttributes(model, letterDTO, Mode.ADD);
             return "letter";
         }
 
@@ -76,10 +62,8 @@ public class LetterController {
     @GetMapping("/edit")
     public String edit(@RequestParam(value = "id", required = false) Long id,
                        Model model) {
-        LetterDTO letter = letterService.findById(id);
-        model.addAttribute("letter", letter);
-        model.addAttribute("mode", Mode.EDIT);
-        model.addAllAttributes(getSelectObjects());
+        LetterDTO letterDTO = letterService.findById(id);
+        addAttributes(model, letterDTO, Mode.EDIT);
         return "letter";
     }
 
@@ -93,14 +77,26 @@ public class LetterController {
         }
 
         if(result.hasErrors()){
-            model.addAttribute("letter", letterDTO);
-            model.addAllAttributes(getSelectObjects());
-            model.addAttribute("mode", Mode.EDIT);
+            addAttributes(model, letterDTO, Mode.EDIT);
             return "letter";
         }
 
         letterService.update(letterDTO);
+        return "redirect:/main/letter/edit?success&id=" + letterDTO.getId();
+    }
 
-        return "redirect:/main/letter/edit?success&id=" +letterDTO.getId();
+    private void addAttributes(Model model, LetterDTO letterDTO, Mode mode) {
+        model.addAttribute("letter", letterDTO);
+        model.addAttribute("mode", mode);
+        model.addAllAttributes(getViewObjects());
+    }
+
+    private Map<String, List<?>> getViewObjects() {
+        Map<String, List<?>> selectObjects = new HashMap<>();
+        selectObjects.put("letterStatuses", letterStatuses == null ? letterStatusService.getAll() : letterStatuses);
+        selectObjects.put("users", users == null ? userService.findAllUsers() : users);
+        selectObjects.put("letterTypes", letterTypes == null ? letterTypeService.findAll() : letterTypes);
+        selectObjects.put("templateTypes", templateTypes == null ? templateTypeService.findAll() : templateTypes);
+        return selectObjects;
     }
 }

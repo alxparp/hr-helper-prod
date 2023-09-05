@@ -57,20 +57,21 @@
             <fieldset>
                 <input type="checkbox"
                        id="checkedAll"
-                       name="city"
+                       name="places"
                        value="All"
                        th:text="'All'"><br>
                 <th:block th:each="location: ${locations}">
                     <input
                             type="checkbox"
-                            name="city"
+                            name="places"
+                            th:attrappend="checked=${locationsDefault.contains(location)} ? 'checked'"
                             th:value="${location.getCity()}"
                             th:text="${location.getCity()}">
                     <br>
                 </th:block>
-                <input type="submit" value="Confirm"/>
-                <input type="reset" value="Cancel"/>
             </fieldset>
+            <input type="submit" value="Confirm"/>
+            <input type="reset" value="Cancel"/>
         </form>
     </div>
 </div>

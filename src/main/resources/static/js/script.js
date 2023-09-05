@@ -48,12 +48,14 @@ btn.onclick = function () {
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
     modal.style.display = "none";
+    setDefaultLocations();
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
+        setDefaultLocations();
     }
 }
 
@@ -98,7 +100,7 @@ function displayLetters(table, data) {
         return;
     }
 
-    var result = "<tr>\n" +
+    let result = "<tr>\n" +
         "<th>Name</th>\n" +
         "<th>Due Date</th>\n" +
         "<th>Status</th>\n" +
@@ -119,7 +121,7 @@ function displayLetters(table, data) {
 }
 
 function approveGeneratedLetter(event, letterId) {
-    var criteria = {}
+    let criteria = {}
     criteria["id"] = letterId;
 
     $.ajax({
@@ -141,12 +143,12 @@ function approveGeneratedLetter(event, letterId) {
 }
 
 function displayPaginator(data) {
-    var letterPage = data.result;
-    var paginator = document.getElementById("paginator");
+    let letterPage = data.result;
+    let paginator = document.getElementById("paginator");
     paginator.innerHTML = "";
     if (letterPage.totalPages > 0) {
         $.each(data.pageNumbers, function (index, value) {
-            var className = "";
+            let className = "";
             if (value === letterPage.number + 1) {
                 className = "class='active'";
             }
@@ -163,16 +165,16 @@ function clickPagination(event, size, pageNumber) {
 
 const checkbox = document.getElementById('checkedAll')
 checkbox.addEventListener('change', (event) => {
-    var modalContent = document.getElementsByClassName("modal-content");
-    var inputs = modalContent.item(0).getElementsByTagName("input");
+    let modalContent = document.getElementsByClassName("modal-content");
+    let inputs = modalContent.item(0).getElementsByTagName("input");
     if (event.currentTarget.checked) {
-        for (var i = 1; i < inputs.length; i++) {
+        for (let i = 1; i < inputs.length; i++) {
             if (inputs[i].type === 'checkbox') {
                 inputs[i].checked = true;
             }
         }
     } else {
-        for (var i = 1; i < inputs.length; i++) {
+        for (let i = 1; i < inputs.length; i++) {
             if (inputs[i].type === 'checkbox') {
                 inputs[i].checked = false;
             }
@@ -184,14 +186,14 @@ $(document).ready(function ($) {
     $(document).on('submit', '#locationForm', function(event) {
         event.preventDefault();
 
-        var citiesJson = "{\"city\": [";
+        let citiesJson = "{\"cities\": [";
 
-        var locationForm = document.getElementById("locationForm");
-        var inputs = locationForm.getElementsByTagName("input");
-        var iter = 0;
-        for (var i = 0; i < inputs.length; i++) {
+        let locationForm = document.getElementById("locationForm");
+        let inputs = locationForm.getElementsByTagName("input");
+        let iter = 0;
+        for (let i = 0; i < inputs.length; i++) {
             if (inputs[i].type === 'checkbox') {
-                if (inputs[i].checked === true) {
+                if (inputs[i].checked === true && inputs[i].value !== 'All') {
                     citiesJson += "\"" + inputs[i].value + "\",";
                     iter++;
                 }
@@ -211,15 +213,49 @@ $(document).ready(function ($) {
             cache: false,
             timeout: 600000,
             success: function (data) {
-                var tabcontent = document.getElementById(letterTypeIdGlobal);
-                var table = tabcontent.getElementsByTagName("table").item(0);
+                let tabcontent = document.getElementById(letterTypeIdGlobal);
+                let table = tabcontent.getElementsByTagName("table").item(0);
                 displayLetters(table, data);
                 displayPaginator(data);
                 console.log(data);
             },
         });
-
+        modal.style.display = "none";
     });
 
 });
+
+$(document).ready(function ($) {
+    $(document).on('reset', '#locationForm', function (event) {
+        event.preventDefault();
+        setDefaultLocations();
+    });
+});
+
+function setDefaultLocations() {
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/main/locationsDefault",
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            console.log(data);
+            let modalContent = document.getElementsByClassName("modal-content");
+            let inputs = modalContent.item(0).getElementsByTagName("input");
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].type === 'checkbox') {
+                    inputs[i].checked = false;
+                    if (data.cities.includes(inputs[i].value)) inputs[i].checked = true;
+                }
+
+            }
+        },
+        error: function (e) {
+            // table.innerHTML = "<span style='color:red;'>Something went wrong!!!</span>"
+            console.log("ERROR : ", e);
+        }
+    });
+}
 

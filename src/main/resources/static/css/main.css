@@ -139,11 +139,17 @@
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
 }
 
 .modal-content p {
     text-align: center;
+}
+
+#locationForm fieldset {
+    height: 100px;
+    overflow: scroll;
+    margin-bottom: 10px;
 }
 
 

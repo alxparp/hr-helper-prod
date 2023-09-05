@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AjaxResponseBody {
+public class LetterResponseBody {
 
     private String msg;
     private Page<LetterDTO> result;

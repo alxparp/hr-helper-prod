@@ -1,11 +1,12 @@
 package com.hrsol.helper.service;
 
+import com.hrsol.helper.entity.Configuration;
 import com.hrsol.helper.entity.LetterType;
-import com.hrsol.helper.model.City;
-import com.hrsol.helper.model.ClickCriteria;
+import com.hrsol.helper.entity.Location;
+import com.hrsol.helper.model.FilterCriteria;
+import com.hrsol.helper.model.dto.ConfigurationDTO;
 import com.hrsol.helper.model.dto.LetterDTO;
-import com.hrsol.helper.service.impl.LetterService;
-import com.hrsol.helper.service.impl.LetterTypeService;
+import com.hrsol.helper.service.impl.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -22,34 +23,33 @@ public class PaginatorService {
     private final static int PAGE_SIZE_DEFAULT = 2;
     private final LetterService letterService;
     private final LetterTypeService letterTypeService;
+    private final ConfigurationService configurationService;
 
     public PaginatorService(LetterService letterService,
-                            LetterTypeService letterTypeService) {
+                            LetterTypeService letterTypeService,
+                            ConfigurationService configurationService) {
         this.letterService = letterService;
         this.letterTypeService = letterTypeService;
+        this.configurationService = configurationService;
     }
 
-    public Page<LetterDTO> configurePaginator(ClickCriteria clickCriteria) {
-        int currentPage = clickCriteria.getPage().orElse(CURRENT_PAGE_DEFAULT);
-        int pageSize = clickCriteria.getSize().orElse(PAGE_SIZE_DEFAULT);
-        LetterType letterType = letterTypeService.findById(clickCriteria.getId());
+    public Page<LetterDTO> configurePaginator(FilterCriteria filterCriteria, String username) {
+        int currentPage = filterCriteria.getPage().orElse(CURRENT_PAGE_DEFAULT);
+        int pageSize = filterCriteria.getSize().orElse(PAGE_SIZE_DEFAULT);
+        LetterType letterType = letterTypeService.findById(filterCriteria.getId());
 
-        int size = letterService.getSizeByType(letterType);
-        PageRequest request = PageRequest.of(currentPage - 1, pageSize);
-        List<LetterDTO> letters = letterService.findByLetterType(letterType, request);
+        List<Location> locations = configurationService.getEntitiesByUser(username)
+                .stream()
+                .map(Configuration::getLocation)
+                .toList();
 
-        return new PageImpl<>(letters, request, size);
+        return configurePaginator(letterType, locations, currentPage, pageSize);
     }
 
-    public Page<LetterDTO> configurePaginatorByCities(City city) {
-        int currentPage = city.getPage().orElse(CURRENT_PAGE_DEFAULT);
-        int pageSize = city.getSize().orElse(PAGE_SIZE_DEFAULT);
-        LetterType letterType = letterTypeService.findById(city.getId());
-
-        int size = letterService.getSizeByLetterTypeAndCities(letterType, city.getCity());
+    private Page<LetterDTO> configurePaginator(LetterType letterType, List<Location> locations, int currentPage, int pageSize) {
+        int size = letterService.getSizeByLetterTypeAndUsername_LocationIn(letterType, locations);
         PageRequest request = PageRequest.of(currentPage - 1, pageSize);
-        List<LetterDTO> letters = letterService.findByLetterTypeAndCities(letterType,city.getCity(), request);
-
+        List<LetterDTO> letters = letterService.findByLetterTypeAndUsername_LocationIn(letterType, locations, request);
         return new PageImpl<>(letters, request, size);
     }
 

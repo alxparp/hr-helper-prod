@@ -128,9 +128,9 @@ class LetterServiceTest {
         when(templateTypeService.findByType(letterDTO.getTemplateType())).thenReturn(templateType);
         when(letterRepository.save(letter)).thenReturn(letter);
 
-        Letter letterActual = letterService.save(letterDTO);
+        LetterDTO letterDTOActual = letterService.save(letterDTO);
 
-        Assertions.assertEquals(letter, letterActual);
+        Assertions.assertEquals(letterDTO, letterDTOActual);
     }
 
     @Test
