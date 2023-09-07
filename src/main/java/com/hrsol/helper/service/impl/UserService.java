@@ -50,7 +50,8 @@ public class UserService {
     }
 
     public UserDTO getDTOByUsername(String username) {
-        return UserConverter.userToUserDTO(findByUsername(username));
+        User user = findByUsername(username);
+        return user != null ? UserConverter.userToUserDTO(user) : null;
     }
 
     public User saveUser(UserDTO userDTO) {

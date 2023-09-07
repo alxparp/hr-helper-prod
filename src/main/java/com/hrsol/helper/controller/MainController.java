@@ -1,11 +1,13 @@
 package com.hrsol.helper.controller;
 
-import com.hrsol.helper.entity.User;
 import com.hrsol.helper.model.*;
 import com.hrsol.helper.model.dto.ConfigurationDTO;
 import com.hrsol.helper.model.dto.LetterDTO;
 import com.hrsol.helper.service.PaginatorService;
-import com.hrsol.helper.service.impl.*;
+import com.hrsol.helper.service.impl.ConfigurationService;
+import com.hrsol.helper.service.impl.LetterService;
+import com.hrsol.helper.service.impl.LetterTypeService;
+import com.hrsol.helper.service.impl.LocationService;
 import jakarta.validation.Valid;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.data.domain.Page;
@@ -67,7 +69,11 @@ public class MainController {
             @Valid @RequestBody LetterTypeCriteria letterTypeCriteria, Errors errors, Principal principal) {
 
         LetterResponseBody result = new LetterResponseBody();
-        ResponseEntity<?> response = handleErrorsAndValidate(errors, result, letterTypeService.containsId(letterTypeCriteria.getId()));
+
+        ResponseEntity<?> response = handleErrors(errors, result);
+        if (response != null) return response;
+
+        response = handleErrorsAndValidate(result, letterTypeService.containsId(letterTypeCriteria.getId()));
         if (response != null) return response;
 
         Page<LetterDTO> letterPage = paginatorService.configurePaginator(letterTypeCriteria, principal.getName());
@@ -81,8 +87,12 @@ public class MainController {
             @Valid @RequestBody ApproveLetter approveLetter, Errors errors) {
 
         LetterResponseBody result = new LetterResponseBody();
+
+        ResponseEntity<?> response = handleErrors(errors, result);
+        if (response != null) return response;
+
         Long approveLetterId = approveLetter.getId();
-        ResponseEntity<?> response = handleErrorsAndValidate(errors, result, letterService.containsId(approveLetterId));
+        response = handleErrorsAndValidate(result, letterService.containsId(approveLetterId));
         if (response != null) return response;
 
         int flag = letterService.approveGeneratedLetter(approveLetterId);
@@ -91,10 +101,7 @@ public class MainController {
     }
 
     private ResponseEntity<?> handleErrorsAndValidate(
-            Errors errors, LetterResponseBody result, boolean isValid) {
-
-        ResponseEntity<?> response = handleErrors(errors, result);
-        if (response != null) return response;
+            LetterResponseBody result, boolean isValid) {
 
         if (!isValid) {
             result.setMsg("Such letter type/letter doesn't exist");

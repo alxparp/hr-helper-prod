@@ -136,4 +136,12 @@ public class DummyObjects {
         return new LetterTypeCriteria(1L, Optional.of(1), Optional.of(2));
     }
 
+    public static Configuration getConfiguration() {
+        return Configuration.builder()
+                .id(1L)
+                .location(getLocation())
+                .user(getUser())
+                .build();
+    }
+
 }

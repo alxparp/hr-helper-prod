@@ -97,6 +97,16 @@ class LetterServiceTest {
     }
 
     @Test
+    void findByLetterTypeAndUsername_LocationIn() {
+
+    }
+
+    @Test
+    void getSizeByLetterTypeAndUsername_LocationIn() {
+
+    }
+
+    @Test
     void approveGeneratedLetter() {
         // given
         int resultExpected = 1;

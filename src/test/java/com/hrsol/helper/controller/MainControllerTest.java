@@ -29,7 +29,7 @@ class MainControllerTest {
 
 
     @Test
-    void getResultViaAjax() throws Exception {
+    void getLettersByType() throws Exception {
 
         String urlLetterType = "/main/letterType";
         LetterTypeCriteria letterTypeCriteria = DummyObjects.getClickCriteria();
@@ -47,7 +47,7 @@ class MainControllerTest {
 
         letterTypeCriteria.setId(20L);
         letterResponseBody = generateRequest(generateJSON(letterTypeCriteria), urlLetterType);
-        Assertions.assertEquals("Such letter type doesn't exist", letterResponseBody.getMsg());
+        Assertions.assertEquals("Such letter type/letter doesn't exist", letterResponseBody.getMsg());
     }
 
     private LetterResponseBody generateRequest(String request, String url) throws Exception {
@@ -85,6 +85,6 @@ class MainControllerTest {
         Assertions.assertEquals("Value can't be less than 0", letterResponseBody.getMsg());
 
         letterResponseBody = generateRequest(String.format(requestJson, "20"), urlApprove);
-        Assertions.assertEquals("Such letter doesn't exist", letterResponseBody.getMsg());
+        Assertions.assertEquals("Such letter type/letter doesn't exist", letterResponseBody.getMsg());
     }
 }
