@@ -3,6 +3,7 @@ package com.hrsol.helper.service;
 import com.google.gson.Gson;
 import com.hrsol.helper.DummyObjects;
 import com.hrsol.helper.converter.LetterConverter;
+import com.hrsol.helper.entity.Configuration;
 import com.hrsol.helper.entity.Letter;
 import com.hrsol.helper.entity.LetterType;
 import com.hrsol.helper.entity.User;
@@ -39,10 +40,12 @@ class PaginatorServiceTest {
     private Letter letter;
     private LetterTypeCriteria letterTypeCriteria;
     private User user;
+    private Configuration configuration;
 
     @BeforeEach
     void setUp() {
         letterType = DummyObjects.getLetterType();
+        configuration = DummyObjects.getConfiguration();
         user = DummyObjects.getUser();
         size = 8;
         letter = DummyObjects.getLetter();
@@ -62,8 +65,9 @@ class PaginatorServiceTest {
         }
         PageRequest request = PageRequest.of(currentPage - 1, pageSize);
         when(letterTypeService.findById(letterTypeCriteria.getId())).thenReturn(letterType);
-        when(letterService.getSizeByType(letterType)).thenReturn(size);
-        when(letterService.findByLetterType(letterType, request)).thenReturn(letterDTOS);
+        when(configurationService.getEntitiesByUser(user.getUsername())).thenReturn(List.of(configuration));
+        when(letterService.getSizeByLetterTypeAndUsername_LocationIn(letterType, List.of(user.getLocation()))).thenReturn(size);
+        when(letterService.findByLetterTypeAndUsername_LocationIn(letterType, List.of(user.getLocation()),request)).thenReturn(letterDTOS);
         Page<LetterDTO> letterPageExpected = new PageImpl<>(letterDTOS, request, size);
 
         // when

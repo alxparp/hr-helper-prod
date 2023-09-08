@@ -44,6 +44,8 @@ class LetterServiceTest {
     private LetterStatus letterStatus;
     private User user;
     private TemplateType templateType;
+    private Pageable pageable;
+    private List<Location> locations;
 
     @BeforeEach
     void setUp() {
@@ -55,6 +57,8 @@ class LetterServiceTest {
         letterStatus = DummyObjects.getLetterStatus();
         user = DummyObjects.getUser();
         templateType = DummyObjects.getTemplateType();
+        pageable = PageRequest.of(0, 2);
+        locations = List.of(user.getLocation());
     }
 
     @Test
@@ -67,8 +71,6 @@ class LetterServiceTest {
 
         // then
         Assertions.assertEquals(letterDTOSExpected, letterDTOSActual);
-
-
     }
 
     @Test
@@ -86,7 +88,7 @@ class LetterServiceTest {
     @Test
     void findByLetterType() {
         // given
-        Pageable pageable = PageRequest.of(0, 2);
+
         when(letterRepository.findByLetterType(letterType, pageable)).thenReturn(List.of(letter));
 
         // when
@@ -94,6 +96,30 @@ class LetterServiceTest {
 
         // then
         Assertions.assertEquals(letterDTOSExpected, letterDTOSActual);
+    }
+
+    @Test
+    void findByLetterTypeAndUsername_LocationIn() {
+        List<LetterDTO> letterDTOSExpected = List.of(LetterConverter.LetterToDTO(letter));
+
+        when(letterRepository.findByLetterTypeAndUsername_LocationIn(letterType, locations, pageable))
+                .thenReturn(List.of(letter));
+
+        List<LetterDTO> letterDTOSActual = letterService.findByLetterTypeAndUsername_LocationIn(
+                letterType, locations, pageable);
+
+        Assertions.assertEquals(letterDTOSExpected, letterDTOSActual);
+    }
+
+    @Test
+    void getSizeByLetterTypeAndUsername_LocationIn() {
+        Integer sizeExpected = 2;
+        when(letterRepository.countByLetterTypeAndUsername_LocationIn(letterType, locations))
+                .thenReturn(sizeExpected);
+
+        Integer sizeActual = letterService.getSizeByLetterTypeAndUsername_LocationIn(letterType, locations);
+
+        Assertions.assertEquals(sizeExpected, sizeActual);
     }
 
     @Test

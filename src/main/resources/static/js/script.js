@@ -1,43 +1,41 @@
-// Multiple tabs --------------------------------------
-
+// Default tab
 document.getElementById("defaultOpen").click();
 
-var letterTypeIdGlobal;
+// Global variable for the selected letter type
+var selectedLetterTypeId;
 
+// Multiple tabs --------------------------------------
 function showLetters(evt, letterTypeId) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
-    letterTypeIdGlobal = letterTypeId;
-
-    fire_ajax_submit(letterTypeId, null, null);
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
+    // Hide all tab content
+    var tabContents = document.getElementsByClassName("tabcontent");
+    for (var i = 0; i < tabContents.length; i++) {
+        tabContents[i].style.display = "none";
     }
 
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    // Remove 'active' class from all tab links
+    var tabLinks = document.getElementsByClassName("tablinks");
+    for (var i = 0; i < tabLinks.length; i++) {
+        tabLinks[i].classList.remove("active");
     }
 
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(letterTypeId).style.display = "block";
-    evt.currentTarget.className += " active";
+    // Show the selected tab and set it as active
+    var selectedTabContent = document.getElementById(letterTypeId);
+    selectedTabContent.style.display = "block";
+    evt.currentTarget.classList.add("active");
+
+    // Update the global selectedLetterTypeId variable
+    selectedLetterTypeId = letterTypeId;
+
+    // Load data for the selected tab
+    fireAjaxSubmit(letterTypeId, null, null);
 }
 
 
-// Modal window ----------------------------------------
+// Modal window
 
 // Get the modal
 var modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
 var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal
@@ -47,30 +45,31 @@ btn.onclick = function () {
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
-    modal.style.display = "none";
-    setDefaultLocations();
-}
+    closeModal();
+};
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     if (event.target == modal) {
-        modal.style.display = "none";
-        setDefaultLocations();
+        closeModal();
     }
+};
+
+function closeModal() {
+    modal.style.display = "none";
+    setDefaultLocations();
 }
 
+// AJAX function to load data for a tab
+function fireAjaxSubmit(letterTypeId, size, pageNumber) {
+    var criteria = {
+        id: letterTypeId,
+        size: size,
+        page: pageNumber
+    };
 
-// Load information clicking on the tab -----------------------
-
-// Ajax
-function fire_ajax_submit(letterTypeId, size, pageNumber) {
-    var criteria = {}
-    criteria["id"] = letterTypeId;
-    criteria["size"] = size;
-    criteria["page"] = pageNumber;
-
-    var tabcontent = document.getElementById(letterTypeId);
-    var table = tabcontent.getElementsByTagName("table").item(0);
+    var tabContent = document.getElementById(letterTypeId);
+    var table = tabContent.querySelector("table");
 
     $.ajax({
         type: "POST",
@@ -92,6 +91,7 @@ function fire_ajax_submit(letterTypeId, size, pageNumber) {
     });
 }
 
+// Function to display letters in a table
 function displayLetters(table, data) {
     table.innerHTML = "";
 
@@ -120,9 +120,11 @@ function displayLetters(table, data) {
     table.innerHTML = result;
 }
 
+// Function to approve a generated letter
 function approveGeneratedLetter(event, letterId) {
-    let criteria = {}
-    criteria["id"] = letterId;
+    let criteria = {
+        id: letterId
+    };
 
     $.ajax({
         type: "POST",
@@ -133,7 +135,7 @@ function approveGeneratedLetter(event, letterId) {
         cache: false,
         timeout: 600000,
         success: function (data) {
-            fire_ajax_submit(letterTypeIdGlobal, null, null);
+            fireAjaxSubmit(selectedLetterTypeId, null, null);
             console.log("SUCCESS : ", data);
         },
         error: function (e) {
@@ -142,16 +144,15 @@ function approveGeneratedLetter(event, letterId) {
     });
 }
 
+// Function to display pagination links
 function displayPaginator(data) {
     let letterPage = data.result;
     let paginator = document.getElementById("paginator");
     paginator.innerHTML = "";
+
     if (letterPage.totalPages > 0) {
         $.each(data.pageNumbers, function (index, value) {
-            let className = "";
-            if (value === letterPage.number + 1) {
-                className = "class='active'";
-            }
+            var className = value === letterPage.number + 1 ? "class='active'" : "";
             paginator.innerHTML +=
                 "<a onclick=\"clickPagination(event," + letterPage.size + "," + value + ");\" " + className + ">"
                 + value + "</a>";
@@ -160,61 +161,48 @@ function displayPaginator(data) {
 }
 
 function clickPagination(event, size, pageNumber) {
-    fire_ajax_submit(letterTypeIdGlobal, size, pageNumber);
+    fireAjaxSubmit(selectedLetterTypeId, size, pageNumber);
 }
 
 const checkbox = document.getElementById('checkedAll')
 checkbox.addEventListener('change', (event) => {
-    let modalContent = document.getElementsByClassName("modal-content");
-    let inputs = modalContent.item(0).getElementsByTagName("input");
-    if (event.currentTarget.checked) {
-        for (let i = 1; i < inputs.length; i++) {
-            if (inputs[i].type === 'checkbox') {
-                inputs[i].checked = true;
-            }
-        }
-    } else {
-        for (let i = 1; i < inputs.length; i++) {
-            if (inputs[i].type === 'checkbox') {
-                inputs[i].checked = false;
-            }
-        }
+    var modalContent = document.querySelector(".modal-content");
+    var inputs = modalContent.querySelectorAll("input[type='checkbox']");
+    var isChecked = event.currentTarget.checked;
+
+    for (var i = 1; i < inputs.length; i++) {
+        inputs[i].checked = isChecked;
     }
 });
 
 $(document).ready(function ($) {
-    $(document).on('submit', '#locationForm', function(event) {
+    $(document).on('submit', '#locationForm', function (event) {
         event.preventDefault();
 
-        let citiesJson = "{\"cities\": [";
+        var citiesJson = {cities: []};
 
-        let locationForm = document.getElementById("locationForm");
-        let inputs = locationForm.getElementsByTagName("input");
-        let iter = 0;
-        for (let i = 0; i < inputs.length; i++) {
-            if (inputs[i].type === 'checkbox') {
-                if (inputs[i].checked === true && inputs[i].value !== 'All') {
-                    citiesJson += "\"" + inputs[i].value + "\",";
-                    iter++;
-                }
+        var locationForm = document.getElementById("locationForm");
+        var inputs = locationForm.querySelectorAll("input[type='checkbox']");
+
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].checked && inputs[i].value !== 'All') {
+                citiesJson.cities.push(inputs[i].value);
             }
         }
-        if (iter > 0) citiesJson = citiesJson.slice(0,-1);
-        citiesJson += "], \"id\": " + letterTypeIdGlobal + "}";
 
-        console.log(citiesJson);
+        citiesJson.id = selectedLetterTypeId;
 
         $.ajax({
             type: "POST",
             contentType: "application/json",
             url: "/main/lettersByCities",
-            data: citiesJson,
+            data: JSON.stringify(citiesJson),
             dataType: "json",
             cache: false,
             timeout: 600000,
             success: function (data) {
-                let tabcontent = document.getElementById(letterTypeIdGlobal);
-                let table = tabcontent.getElementsByTagName("table").item(0);
+                let tabContent = document.getElementById(selectedLetterTypeId);
+                let table = tabContent.querySelector("table");
                 displayLetters(table, data);
                 displayPaginator(data);
                 console.log(data);
@@ -222,7 +210,6 @@ $(document).ready(function ($) {
         });
         modal.style.display = "none";
     });
-
 });
 
 $(document).ready(function ($) {
@@ -242,15 +229,12 @@ function setDefaultLocations() {
         timeout: 600000,
         success: function (data) {
             console.log(data);
-            let modalContent = document.getElementsByClassName("modal-content");
-            let inputs = modalContent.item(0).getElementsByTagName("input");
-            for (let i = 0; i < inputs.length; i++) {
-                if (inputs[i].type === 'checkbox') {
-                    inputs[i].checked = false;
-                    if (data.cities.includes(inputs[i].value)) inputs[i].checked = true;
-                }
+            var modalContent = document.querySelector(".modal-content");
+            var inputs = modalContent.querySelectorAll("input[type='checkbox']");
 
-            }
+            inputs.forEach(function (input) {
+                input.checked = data.cities.includes(input.value);
+            })
         },
         error: function (e) {
             // table.innerHTML = "<span style='color:red;'>Something went wrong!!!</span>"
