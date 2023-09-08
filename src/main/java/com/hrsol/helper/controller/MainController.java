@@ -51,18 +51,6 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping(value = "/locationsDefault", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<?> getLocationsDefault(Principal principal) {
-        CitiesResponseBody result = new CitiesResponseBody();
-        result.setCities(configurationService.getDTOSByUser(principal.getName())
-                .stream()
-                .map(ConfigurationDTO::getLocation)
-                .toList());
-        result.setMsg("Success");
-        return ResponseEntity.ok(result);
-    }
-
     @PostMapping(value = "/letterType", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> getLettersByType(
@@ -133,6 +121,18 @@ public class MainController {
             result.setMsg("Success");
         }
         result.setResult(letterPage);
+    }
+
+    @GetMapping(value = "/locationsDefault", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> getLocationsDefault(Principal principal) {
+        CitiesResponseBody result = new CitiesResponseBody();
+        result.setCities(configurationService.getDTOSByUser(principal.getName())
+                .stream()
+                .map(ConfigurationDTO::getLocation)
+                .toList());
+        result.setMsg("Success");
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping(value = "/lettersByCities", produces = MediaType.APPLICATION_JSON_VALUE)
